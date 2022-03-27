@@ -1,0 +1,43 @@
+<resources>
+
+
+    <string name="app_name">Android Final</string>
+
+    <string name="ButtonText">I\’m a button</string>
+
+
+
+    <!-- This is for Recipe Values. Thanks! DNT! -->
+
+    <string name="recipeSearchButtonText">Search</string>
+    <string name="recipeSearchEditText">What are you looking for?</string>
+    <string name="Publisher">Publisher :</string>
+    <string name="Title">Title :</string>
+    <string name="recipeFragmentImageDescription">This Recipe\'s Image</string>
+    <string name="applicationName">Android Final </string>
+    <string name="recipeMainButton">Search Recipes!</string>
+    <string name="recipeSearchLasagna">You wrote Lasagna right?</string>
+    <string name="recipeSearchChicken">I like Chicken too!</string>
+    <string name="recipeVersion">Ver 0.1 beta</string>
+    <string name="gotcha">Gotcha</string>
+    <string name="lastchoicelasagan">Your last choice was to look for lasagna recipes.</string>
+    <string name="lastchoicechicken">Your last choice was to look for chicken recipes.</string>
+    <string name="recipeapp">Recipe App</string>
+    <string name="gotorecipe">Go To Recipe</string>
+    <string name="information">Activity Information</string>
+    <string name="recipeMainHelp">Press Gotcha, then click button to start Searching! Or click the star on the toolbar to go directly to your Favorites</string>
+    <string name="recipeSearchHelp">Toggle Results/Favorites list on toolbar. You may only enter search when looking at the Results List. Also the droids only let you search Lasagna and Chicken, go figure.</string>
+
+    <!-- This is the end of Recipe Values. Thanks! DNT! -->
+
+
+
+    <string name="favorlist_dialog_msg">Do you want to delete the selected item..?</string>
+
+    <string name="favorlist_dialog_title">Are you sure..</string>
+    <string name="gobacktomain">Go Back</string>
+    <string name="help_menu_title_text">Help</string>
+    <string name="detailF_dialog_msg">added News to Favourites!</string>
+    <string name="toastmsg_2">Valid search!!!</string>
+    <string name="toastmsg_3">Invalid Search!!! \n\n Enter a key word and try again</string>
+</resources>
