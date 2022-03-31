@@ -57,8 +57,8 @@ public class RecipeSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_activity);
 
-//        toolbar = (Toolbar) findViewById(R.id.recipe_toolbar);
-//        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.recipe_toolbar);
+        setSupportActionBar(toolbar);
         searchButton = findViewById(R.id.recipeSearchButton);
         searchText = findViewById(R.id.searchEditText);
         list = findViewById(R.id.recipeListView);

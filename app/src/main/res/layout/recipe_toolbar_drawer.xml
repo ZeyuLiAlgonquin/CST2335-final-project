@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Linear_toolbar_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Recipe.RecipeMain"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:fitsSystemWindows="true" >
+    tools:context=".Recipe.RecipeMain">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/recipe_toolbar"
@@ -43,30 +44,30 @@
             app:headerLayout="@layout/header_file"
             app:menu="@menu/drawer_menu" />
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <!--        <ScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent">-->
 
-<!--            &lt;!&ndash;        <include&ndash;&gt;-->
-<!--            &lt;!&ndash;            android:id="@+id/toolbar"&ndash;&gt;-->
-<!--            &lt;!&ndash;            layout="@layout/toolbar"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash;        <include&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:id="@+id/toolbar"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            layout="@layout/toolbar"/>&ndash;&gt;-->
 
-<!--        </ScrollView>-->
+        <!--        </ScrollView>-->
 
 
     </androidx.drawerlayout.widget.DrawerLayout>
-<!--    <androidx.drawerlayout.widget.DrawerLayout-->
-<!--        android:id="@+id/drawer_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:openDrawer="start">-->
+    <!--    <androidx.drawerlayout.widget.DrawerLayout-->
+    <!--        android:id="@+id/drawer_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        tools:openDrawer="start">-->
 
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:id="@+id/nav_view"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="start"-->
-<!--        android:fitsSystemWindows="true"-->
-<!--        app:menu="@menu/drawer_menu" />-->
-<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
+    <!--    <com.google.android.material.navigation.NavigationView-->
+    <!--        android:id="@+id/nav_view"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="start"-->
+    <!--        android:fitsSystemWindows="true"-->
+    <!--        app:menu="@menu/drawer_menu" />-->
+    <!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 </LinearLayout>
