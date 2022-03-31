@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -124,6 +125,8 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
                 Intent goToAbout = new Intent(RecipeMain.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
+            default:
+                Toast.makeText(this, "You'are at home now!", Toast.LENGTH_LONG).show();
         }
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -178,6 +181,8 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
                 Intent goToAbout = new Intent(RecipeMain.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
+            default:
+                Toast.makeText(this, "You'are at home now!", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }
