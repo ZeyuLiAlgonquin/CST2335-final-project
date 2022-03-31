@@ -5,28 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Recipe.RecipeMain"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:fitsSystemWindows="true" >
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/recipeToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="#FF5722"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:id="@+id/recipeToolbar"
-        app:menu="@menu/toolbar_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintVertical_bias="0.0"
+        app:menu="@menu/toolbar_menu"></androidx.appcompat.widget.Toolbar>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FAFAFA"
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
@@ -44,15 +43,15 @@
             app:headerLayout="@layout/header_file"
             app:menu="@menu/drawer_menu" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <!--        <include-->
-            <!--            android:id="@+id/toolbar"-->
-            <!--            layout="@layout/toolbar"/>-->
+<!--            &lt;!&ndash;        <include&ndash;&gt;-->
+<!--            &lt;!&ndash;            android:id="@+id/toolbar"&ndash;&gt;-->
+<!--            &lt;!&ndash;            layout="@layout/toolbar"/>&ndash;&gt;-->
 
-        </ScrollView>
+<!--        </ScrollView>-->
 
 
     </androidx.drawerlayout.widget.DrawerLayout>

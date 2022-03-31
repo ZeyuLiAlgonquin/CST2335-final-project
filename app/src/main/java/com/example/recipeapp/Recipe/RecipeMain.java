@@ -40,39 +40,40 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_main_activty);
+//        setContentView(R.layout.recipe_main_activty);
+        setContentView(R.layout.main_with_toolbar_drawer);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.recipeToolbar);
 //        setSupportActionBar(toolbar);
 
-        String chickOrLasgne;
-        Boolean bool = false;
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-
-        pref.getBoolean("chicken", bool);
-
-        if (bool) {
-            chickOrLasgne = getString(R.string.lastchoicechicken);
-        } else {
-            chickOrLasgne = getString(R.string.lastchoicelasagan);
-        }
-        CoordinatorLayout cLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
-        Snackbar.make(cLayout, chickOrLasgne, Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.gotcha), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Respond to the click, or not it's really up to you
-                    }
-                }).show();
-        Button button = findViewById(R.id.recipeMainButton);
-
-        button.setOnClickListener(click ->
-        {
-            //first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-            Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
-            startActivityForResult(nextActivity, 346); //make the transition
-        });
+//        String chickOrLasgne;
+//        Boolean bool = false;
+//        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+//
+//        pref.getBoolean("chicken", bool);
+//
+//        if (bool) {
+//            chickOrLasgne = getString(R.string.lastchoicechicken);
+//        } else {
+//            chickOrLasgne = getString(R.string.lastchoicelasagan);
+//        }
+//        CoordinatorLayout cLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+//
+//        Snackbar.make(cLayout, chickOrLasgne, Snackbar.LENGTH_INDEFINITE)
+//                .setAction(getString(R.string.gotcha), new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        // Respond to the click, or not it's really up to you
+//                    }
+//                }).show();
+//        Button button = findViewById(R.id.recipeMainButton);
+//
+//        button.setOnClickListener(click ->
+//        {
+//            //first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
+//            Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
+//            startActivityForResult(nextActivity, 346); //make the transition
+//        });
 
 
 //        Toolbar toolbar1 = findViewById(R.id.toolbar);
