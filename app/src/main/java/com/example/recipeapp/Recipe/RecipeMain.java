@@ -1,11 +1,9 @@
 package com.example.recipeapp.Recipe;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,13 +11,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.recipeapp.R;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 /**
  * RecipeMain class is the front page for my Search Section of our Application.
@@ -66,14 +62,14 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
 //                        // Respond to the click, or not it's really up to you
 //                    }
 //                }).show();
-//        Button button = findViewById(R.id.recipeMainButton);
-//
-//        button.setOnClickListener(click ->
-//        {
-//            //first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-//            Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
-//            startActivityForResult(nextActivity, 346); //make the transition
-//        });
+        Button button = findViewById(R.id.recipeMainButton);
+
+        button.setOnClickListener(click ->
+        {
+            //first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
+            Intent goToSearch = new Intent(RecipeMain.this, RecipeSearch.class);
+            startActivityForResult(goToSearch, 346); //make the transition
+        });
 
 
 //        Toolbar toolbar1 = findViewById(R.id.toolbar);
@@ -90,7 +86,7 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
 //                R.string.navagation_drawer_close);
 //        drawerLayout.addDrawerListener(toggle);
 //        toggle.syncState();
-        Toolbar tBar = (Toolbar)findViewById(R.id.recipeToolbar);
+        Toolbar tBar = (Toolbar)findViewById(R.id.recipe_toolbar);
         setSupportActionBar(tBar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -106,23 +102,27 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(MenuItem item){
 
         switch(item.getItemId()){
-            case R.id.home:
-//                Intent goToChat = new Intent(TestToolBar.this, ChatRoomActivity.class);
-//                startActivity(goToChat);
-                break;
             case R.id.search:
-//                Intent goToWeather = new Intent(TestToolBar.this, WeatherForecast.class);
-//                startActivity(goToWeather);
+                Intent goToSearch = new Intent(RecipeMain.this, RecipeSearch.class);
+                startActivity(goToSearch);
                 break;
             case R.id.favorite:
-//                Intent goToProfile = new Intent(TestToolBar.this, ProfileActivity.class);
-//                startActivity(goToProfile);
-//                setResult(RESULT_OK);
-//                finish();
+                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
+                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
+                startActivityForResult(nextActivity, 346); //make the transition
                 break;
             case R.id.help:
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.information))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeMainHelp))
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
                 break;
             case R.id.about_me:
+                Intent goToAbout = new Intent(RecipeMain.this, AboutMeActivity.class);
+                startActivity(goToAbout);
                 break;
         }
 
@@ -172,6 +172,11 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
                 // RecipeSearch.setTable = false;
                 Intent nextActivity2 = new Intent(RecipeMain.this, RecipeSearch.class);
                 startActivityForResult(nextActivity2, 346);
+                break;
+
+            case R.id.Readme:
+                Intent goToAbout = new Intent(RecipeMain.this, AboutMeActivity.class);
+                startActivity(goToAbout);
                 break;
         }
         return super.onOptionsItemSelected(item);

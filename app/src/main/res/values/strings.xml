@@ -6,7 +6,6 @@
     <string name="ButtonText">I\’m a button</string>
 
 
-
     <!-- This is for Recipe Values. Thanks! DNT! -->
 
     <string name="recipeSearchButtonText">Search</string>
@@ -29,8 +28,8 @@
     <string name="recipeSearchHelp">Toggle Results/Favorites list on toolbar. You may only enter search when looking at the Results List. Also the droids only let you search Lasagna and Chicken, go figure.</string>
     <string name="navagation_drawer_open">open navigation drawer</string>
     <string name="navagation_drawer_close">close navigation drawer</string>
+    <string name="about_body">This app is the final project of CST2335 xxxx TODO: Introduce this app, author, function details</string>
     <!-- This is the end of Recipe Values. Thanks! DNT! -->
-
 
 
     <string name="favorlist_dialog_msg">Do you want to delete the selected item..?</string>

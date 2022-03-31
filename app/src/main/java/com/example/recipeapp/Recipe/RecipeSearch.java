@@ -26,7 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 import static com.example.recipeapp.Recipe.RecipeDatabaseHelper.*;
 
 /**
- * This class does shows the listviews and allows for searching.
+ * This class shows the listviews and allows for searching.
  * It extends AppCompatActivity
  */
 public class RecipeSearch extends AppCompatActivity {
@@ -57,8 +57,8 @@ public class RecipeSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_activity);
 
-        toolbar = (Toolbar) findViewById(R.id.recipeToolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.recipe_toolbar);
+//        setSupportActionBar(toolbar);
         searchButton = findViewById(R.id.recipeSearchButton);
         searchText = findViewById(R.id.searchEditText);
         list = findViewById(R.id.recipeListView);

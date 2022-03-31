@@ -49,20 +49,7 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper {
         this.db = db;
         createTable(db, RESULTS_TABLE);
         createTable(db, FAVORITE_TABLE);
-        /* Replaced
-        db.execSQL("CREATE TABLE " + RESULTS_TABLE + "( "
-            + PK_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_TITLE + " TEXT, "
-            + COL_WEBSITE + " TEXT, "
-            + COL_IMAGE_URL + " TEXT, "
-            + PUBLISHER + " TEXT)");
 
-        db.execSQL("CREATE TABLE " + FAVORITE_TABLE + "( "
-                + PK_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL_TITLE + " TEXT, "
-                + COL_WEBSITE + " TEXT, "
-                + COL_IMAGE_URL + " TEXT, "
-                + PUBLISHER + " TEXT)");*/
     }
 
     /**This just makes sure that the local db variable always refers to the most current database.

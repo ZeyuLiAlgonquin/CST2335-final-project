@@ -15,9 +15,7 @@
         android:layout_marginBottom="0dp"
         android:tag="@string/recipeSearchEditText" />
 
-    <include
-        layout="@layout/recipe_toolbar_drawer"
-        android:id="@+id/recipeToolbar" />
+
 
     <LinearLayout
         android:id="@+id/recipeOptionsContainer"
@@ -55,4 +53,7 @@
 
         </LinearLayout>
     </LinearLayout>
+    <include
+        layout="@layout/recipe_toolbar_drawer"
+        android:id="@+id/recipe_toolbar" />
 </RelativeLayout>
