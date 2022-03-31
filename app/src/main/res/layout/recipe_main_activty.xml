@@ -10,7 +10,7 @@
 
     <include
         layout="@layout/recipe_toolbar"
-        android:id="@+id/recipeToolbar"></include>
+        android:id="@+id/recipeToolbarDrawer"></include>
 
     <Button
         android:id="@+id/recipeMainButton"

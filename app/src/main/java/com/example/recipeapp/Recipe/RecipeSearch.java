@@ -130,7 +130,7 @@ public class RecipeSearch extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.recipe_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 
         if (showFave) {
             menu.getItem(0).setIcon(R.drawable.search);

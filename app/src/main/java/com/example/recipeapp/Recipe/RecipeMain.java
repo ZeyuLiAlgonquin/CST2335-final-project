@@ -8,13 +8,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.recipeapp.R;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
@@ -23,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
  * It uses the super classic term Gotcha for a button. You are forced to acknowledge it to gain access
  * to the button that will start the search/list activity
  */
-public class RecipeMain extends AppCompatActivity {
+public class RecipeMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static Menu menu;
 
@@ -38,8 +42,8 @@ public class RecipeMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_main_activty);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.recipeToolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.recipeToolbar);
+//        setSupportActionBar(toolbar);
 
         String chickOrLasgne;
         Boolean bool = false;
@@ -71,8 +75,61 @@ public class RecipeMain extends AppCompatActivity {
         });
 
 
-    }
+//        Toolbar toolbar1 = findViewById(R.id.toolbar);
+//        //setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//
+//        FrameLayout frameLayout = findViewById(R.id.main_frameLayout);
+//        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+////        navigationView = findViewById(R.id.navigation);
+//
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawerLayout, toolbar1, R.string.navagation_drawer_open,
+//                R.string.navagation_drawer_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+        Toolbar tBar = (Toolbar)findViewById(R.id.recipeToolbar);
+        setSupportActionBar(tBar);
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawer, tBar, R.string.navagation_drawer_open, R.string.navagation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case R.id.home:
+//                Intent goToChat = new Intent(TestToolBar.this, ChatRoomActivity.class);
+//                startActivity(goToChat);
+                break;
+            case R.id.search:
+//                Intent goToWeather = new Intent(TestToolBar.this, WeatherForecast.class);
+//                startActivity(goToWeather);
+                break;
+            case R.id.favorite:
+//                Intent goToProfile = new Intent(TestToolBar.this, ProfileActivity.class);
+//                startActivity(goToProfile);
+//                setResult(RESULT_OK);
+//                finish();
+                break;
+            case R.id.help:
+                break;
+            case R.id.about_me:
+                break;
+        }
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return false;
+    }
     /**
      * This simply creates the toolbar menu
      */
@@ -80,7 +137,7 @@ public class RecipeMain extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.recipe_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

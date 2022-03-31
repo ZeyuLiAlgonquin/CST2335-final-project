@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="search by ingredient" />
+                android:hint="search by ingredient" />
 
             <Button
                 android:id="@+id/recipeSearchButton"

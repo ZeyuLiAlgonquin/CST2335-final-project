@@ -27,7 +27,8 @@
     <string name="information">Activity Information</string>
     <string name="recipeMainHelp">Press Gotcha, then click button to start Searching! Or click the star on the toolbar to go directly to your Favorites</string>
     <string name="recipeSearchHelp">Toggle Results/Favorites list on toolbar. You may only enter search when looking at the Results List. Also the droids only let you search Lasagna and Chicken, go figure.</string>
-
+    <string name="navagation_drawer_open">open navigation drawer</string>
+    <string name="navagation_drawer_close">close navigation drawer</string>
     <!-- This is the end of Recipe Values. Thanks! DNT! -->
 
 
