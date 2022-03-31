@@ -9,7 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
-        layout="@layout/recipe_toolbar"
+        layout="@layout/recipe_toolbar_drawer"
         android:id="@+id/recipeToolbarDrawer"></include>
 
     <Button

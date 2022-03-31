@@ -16,7 +16,7 @@
         android:tag="@string/recipeSearchEditText" />
 
     <include
-        layout="@layout/recipe_toolbar"
+        layout="@layout/recipe_toolbar_drawer"
         android:id="@+id/recipeToolbar" />
 
     <LinearLayout
