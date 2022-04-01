@@ -67,7 +67,7 @@ public class RecipeAsync extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.recipe_activity);
+        setContentView(R.layout.search);
 
         progressBar = (ProgressBar) findViewById(R.id.recipeSearchProgressBar);
         searchBtn =  findViewById(R.id.recipeSearchButton);

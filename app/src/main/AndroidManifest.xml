@@ -12,9 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Recipe.AboutMeActivity"
-            android:exported="false" />
+
         <!-- <activity android:name=".MainActivity"> -->
         <activity android:name=".Recipe.RecipeMain">
             <intent-filter>
@@ -23,14 +21,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Recipe.AboutMeActivity"
+            android:exported="false"
+            android:parentActivityName=".Recipe.RecipeMain" />
+
         <activity
             android:name=".Recipe.RecipeSearch"
-            android:label="@string/recipeapp" />
+            android:label="@string/recipeapp"
+            android:parentActivityName=".Recipe.RecipeMain" />
         <activity android:name=".Recipe.RecipeAsync" />
         <activity
             android:name=".Recipe.RecipeEmptyActivity"
-            android:label="Recipe Search App" />
-        <activity android:name=".Recipe.RecipeDetailFragment" />
+            android:label="Recipe Search App"
+            android:parentActivityName=".Recipe.RecipeSearch" />
+        <activity android:name=".Recipe.RecipeDetailFragment" android:parentActivityName=".Recipe.RecipeMain" />
+<!--        <activity android:name=".ui.activities.HomeActivity"-->
+<!--            android:parentActivityName=".ui.activities.MainActivity/>-->
     </application>
 
 </manifest>

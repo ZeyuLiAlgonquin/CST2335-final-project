@@ -3,6 +3,7 @@ package com.example.recipeapp.Recipe;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.recipeapp.R;
 
@@ -18,6 +19,10 @@ public class RecipeEmptyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_empty);
+
+        Toolbar tBar = (Toolbar)findViewById(R.id.recipe_toolbar);
+        setSupportActionBar(tBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle dataToPass = getIntent().getExtras();
 

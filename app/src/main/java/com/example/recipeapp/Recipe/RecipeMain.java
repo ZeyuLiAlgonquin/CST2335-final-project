@@ -38,7 +38,8 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.recipe_main_activty);
-        setContentView(R.layout.main_with_toolbar_drawer);
+//        setContentView(R.layout.main_with_toolbar_drawer);
+        setContentView(R.layout.main);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.recipeToolbar);
 //        setSupportActionBar(toolbar);

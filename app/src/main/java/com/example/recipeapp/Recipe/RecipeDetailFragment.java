@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.recipeapp.R;
@@ -54,7 +55,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
 
         title = bundle.getString(RecipeDatabaseHelper.COL_TITLE);
 
-        View result = inflater.inflate(R.layout.frament_recipe_detail, container, false);
+        View result = inflater.inflate(R.layout.detail, container, false);
 
         ImageView imageView = result.findViewById(R.id.imageRecipe);
         String path = bundle.getString(RecipeDatabaseHelper.COL_IMAGE);

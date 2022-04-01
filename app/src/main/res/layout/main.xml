@@ -9,19 +9,25 @@
     android:orientation="vertical"
     tools:context=".Recipe.RecipeMain">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/recipe_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FF5722"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:menu="@menu/toolbar_menu" />
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/recipe_toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="#FF5722"-->
+<!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0"-->
+<!--        app:menu="@menu/toolbar_menu" />-->
+
+
+    <include
+        layout="@layout/toolbar" />
+
+
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -36,12 +42,15 @@
         <!--        android:id="@+id/app_home_navDrawer"-->
         <!--        layout="@layout/app_drawer"/>-->
 
+        <include
+            layout="@layout/home" />
+
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:headerLayout="@layout/header_file"
+            app:headerLayout="@layout/nav_drawer_header"
             app:menu="@menu/drawer_menu" />
 
         <!--        <ScrollView-->
@@ -70,4 +79,6 @@
     <!--        android:fitsSystemWindows="true"-->
     <!--        app:menu="@menu/drawer_menu" />-->
     <!--    </androidx.drawerlayout.widget.DrawerLayout>-->
+
+
 </LinearLayout>

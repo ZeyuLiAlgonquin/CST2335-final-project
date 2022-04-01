@@ -55,10 +55,12 @@ public class RecipeSearch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_activity);
+        setContentView(R.layout.search);
 
         toolbar = (Toolbar) findViewById(R.id.recipe_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         searchButton = findViewById(R.id.recipeSearchButton);
         searchText = findViewById(R.id.searchEditText);
         list = findViewById(R.id.recipeListView);

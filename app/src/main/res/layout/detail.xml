@@ -8,7 +8,6 @@
     android:background="#4F0F3F72"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="229dp">
