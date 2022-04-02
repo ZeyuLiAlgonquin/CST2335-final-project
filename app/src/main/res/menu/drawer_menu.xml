@@ -4,27 +4,27 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/home"
+            android:id="@+id/drawer_home"
             android:title="home"
             android:icon="@drawable/home_icon"/>
 
         <item
-            android:id="@+id/search"
+            android:id="@+id/drawer_search"
             android:title="search"
             android:icon="@drawable/search_icon"/>
 
         <item
-            android:id="@+id/favorite"
+            android:id="@+id/drawer_fav"
             android:title="favorite"
             android:icon="@drawable/favorite_icon"/>
 
         <item
-            android:id="@+id/help"
+            android:id="@+id/drawer_help"
             android:title="help"
             android:icon="@drawable/help_icon"/>
 
         <item
-            android:id="@+id/about_me"
+            android:id="@+id/drawer_about"
             android:title="about me"
             android:icon="@drawable/about_icon"/>
 

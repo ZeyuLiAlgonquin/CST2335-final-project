@@ -29,7 +29,7 @@ import static com.example.recipeapp.Recipe.RecipeDatabaseHelper.*;
  * This class shows the listviews and allows for searching.
  * It extends AppCompatActivity
  */
-public class RecipeSearch extends AppCompatActivity {
+public class RecipeFavActivity extends AppCompatActivity {
 
     public static String SHOW_FAVE = "SHOW_FAVE";
 
@@ -98,7 +98,7 @@ public class RecipeSearch extends AppCompatActivity {
                         .commit();
             } else //isPhone
             {
-                Intent nextActivity = new Intent(RecipeSearch.this, RecipeEmptyActivity.class);
+                Intent nextActivity = new Intent(RecipeFavActivity.this, RecipeEmptyActivity.class);
                 nextActivity.putExtras(mBundle); //send data to next activity
                 startActivityForResult(nextActivity, 346); //make the transition
 
@@ -110,7 +110,7 @@ public class RecipeSearch extends AppCompatActivity {
         {
             //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
             Snackbar.make(searchButton, "Searching online for Chicken. That is what you typed right?", Snackbar.LENGTH_LONG).show();
-            Intent nextActivity = new Intent(RecipeSearch.this, RecipeAsync.class);
+            Intent nextActivity = new Intent(RecipeFavActivity.this, RecipeAsync.class);
             nextActivity.putExtra(RecipeAsync.RECIPE_QUERY, searchText.getText().toString());
             startActivityForResult(nextActivity, 346); //make the transition
 
@@ -132,7 +132,12 @@ public class RecipeSearch extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
+        getMenuInflater().inflate(R.menu.home_toolbar, menu);
+
+        if (showFave) {
+            menu.getItem(0).setIcon(R.drawable.search);
+        }
+
         this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
@@ -146,11 +151,7 @@ public class RecipeSearch extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.toolbar_home:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeSearch.this, RecipeMain.class);
-                startActivityForResult(nextActivity2, 346);
-                break;
+
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
@@ -160,26 +161,23 @@ public class RecipeSearch extends AppCompatActivity {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
-            case R.id.toolbar_fav:
-                Intent goToFav = new Intent(RecipeSearch.this, RecipeFavActivity.class);
-                startActivity(goToFav);
-                break;
-//                if (showFave) {
-//                    showResults();
-//                    menu.getItem(0).setIcon(R.drawable.star_unfilled);
-//                } else {
-//                    showFavorite();
-//                    menu.getItem(0).setIcon(R.drawable.search);
-//                }
-//                showFave = !showFave;
-//                break;
-            case R.id.toolbar_about:
-                Intent goToAbout = new Intent(RecipeSearch.this, AboutMeActivity.class);
-                startActivity(goToAbout);
-                break;
-            case R.id.toolbar_search:
-                Toast.makeText(this,getString(R.string.searchToast) , Toast.LENGTH_LONG).show();
+            case R.id.recipeFav:
 
+                if (showFave) {
+                    showResults();
+                    menu.getItem(0).setIcon(R.drawable.star_unfilled);
+                } else {
+                    showFavorite();
+                    menu.getItem(0).setIcon(R.drawable.search);
+                }
+                showFave = !showFave;
+                break;
+
+            case R.id.toolbar_home:
+                // RecipeSearch.setTable = false;
+                Intent nextActivity2 = new Intent(RecipeFavActivity.this, RecipeMain.class);
+                startActivityForResult(nextActivity2, 346);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,7 +1,12 @@
 package com.example.recipeapp.Recipe;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -35,5 +40,58 @@ public class RecipeEmptyActivity extends AppCompatActivity {
                 .commit();
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the app bar.
+        getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
+//        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * This sets up the onclickListeners and actions for the menu toolbar
+     *
+     * @param item takes which item was clicked
+     * @return returns the return of the super method call
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.toolbar_help:
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.information))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeMainHelp))
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                break;
+            case R.id.toolbar_fav:
+                // RecipeSearch.setTable = false;
+                Intent nextActivity = new Intent(RecipeEmptyActivity.this, RecipeFavActivity.class);
+                startActivity(nextActivity);
+//                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
+//                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
+//                startActivityForResult(nextActivity, 346); //make the transition
+                break;
+
+            case R.id.toolbar_search:
+                // RecipeSearch.setTable = false;
+                Intent nextActivity2 = new Intent(RecipeEmptyActivity.this, RecipeSearch.class);
+                startActivityForResult(nextActivity2, 346);
+                break;
+
+            case R.id.toolbar_about:
+                Intent goToAbout = new Intent(RecipeEmptyActivity.this, AboutMeActivity.class);
+                startActivity(goToAbout);
+                break;
+            case R.id.toolbar_home:
+                Intent goHome = new Intent(RecipeEmptyActivity.this, RecipeMain.class);
+                startActivityForResult(goHome, 346);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

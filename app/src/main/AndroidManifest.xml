@@ -25,20 +25,25 @@
         <activity
             android:name=".Recipe.AboutMeActivity"
             android:exported="false"
+            android:label="@string/about_title"
             android:parentActivityName=".Recipe.RecipeMain" />
 
         <activity
             android:name=".Recipe.RecipeSearch"
-            android:label="@string/recipeapp"
+            android:label="@string/search_title"
             android:parentActivityName=".Recipe.RecipeMain" />
         <activity android:name=".Recipe.RecipeAsync" />
         <activity
             android:name=".Recipe.RecipeEmptyActivity"
-            android:label="Recipe Search App"
+            android:label="@string/detail_title"
             android:parentActivityName=".Recipe.RecipeSearch" />
-        <activity android:name=".Recipe.RecipeDetailFragment" android:parentActivityName=".Recipe.RecipeMain" />
+<!--        <activity android:name=".Recipe.RecipeDetailFragment" android:parentActivityName=".Recipe.RecipeMain" />-->
 <!--        <activity android:name=".ui.activities.HomeActivity"-->
 <!--            android:parentActivityName=".ui.activities.MainActivity/>-->
+        <activity
+            android:name=".Recipe.RecipeFavActivity"
+            android:label="@string/fav_title"
+            android:parentActivityName=".Recipe.RecipeMain" />
     </application>
 
 </manifest>

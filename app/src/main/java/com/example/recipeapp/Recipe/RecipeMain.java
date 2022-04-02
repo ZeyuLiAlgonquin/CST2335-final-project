@@ -104,16 +104,16 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(MenuItem item){
 
         switch(item.getItemId()){
-            case R.id.search:
+            case R.id.drawer_search:
                 Intent goToSearch = new Intent(RecipeMain.this, RecipeSearch.class);
                 startActivity(goToSearch);
                 break;
-            case R.id.favorite:
+            case R.id.drawer_fav:
                 Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
                 nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
                 startActivityForResult(nextActivity, 346); //make the transition
                 break;
-            case R.id.help:
+            case R.id.drawer_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
                         .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeMainHelp))
@@ -122,12 +122,12 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
-            case R.id.about_me:
+            case R.id.drawer_about:
                 Intent goToAbout = new Intent(RecipeMain.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
-            default:
-                Toast.makeText(this, "You'are at home now!", Toast.LENGTH_LONG).show();
+            case R.id.drawer_home:
+                Toast.makeText(this, getString(R.string.homeToast), Toast.LENGTH_LONG).show();
         }
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -140,9 +140,8 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
         this.menu = menu;
-        //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -156,7 +155,7 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.recipeHelp:
+            case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
                         .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeMainHelp))
@@ -165,25 +164,27 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
-            case R.id.recipeFav:
+            case R.id.toolbar_fav:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
-                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
-                startActivityForResult(nextActivity, 346); //make the transition
+                Intent nextActivity = new Intent(RecipeMain.this, RecipeFavActivity.class);
+                startActivity(nextActivity);
+//                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
+//                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
+//                startActivityForResult(nextActivity, 346); //make the transition
                 break;
 
-            case R.id.search:
+            case R.id.toolbar_search:
                 // RecipeSearch.setTable = false;
                 Intent nextActivity2 = new Intent(RecipeMain.this, RecipeSearch.class);
                 startActivityForResult(nextActivity2, 346);
                 break;
 
-            case R.id.Readme:
+            case R.id.toolbar_about:
                 Intent goToAbout = new Intent(RecipeMain.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
-            default:
-                Toast.makeText(this, "You'are at home now!", Toast.LENGTH_LONG).show();
+            case R.id.toolbar_home:
+                Toast.makeText(this, getString(R.string.homeToast), Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }

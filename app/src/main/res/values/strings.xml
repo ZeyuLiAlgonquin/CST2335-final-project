@@ -24,11 +24,23 @@
     <string name="recipeapp">Recipe App</string>
     <string name="gotorecipe">Go To Recipe</string>
     <string name="information">Activity Information</string>
-    <string name="recipeMainHelp">Press Gotcha, then click button to start Searching! Or click the star on the toolbar to go directly to your Favorites</string>
+    <string name="recipeMainHelp">Click button to start Searching! Or click the star on the toolbar to go directly to your Favorites</string>
     <string name="recipeSearchHelp">Toggle Results/Favorites list on toolbar. You may only enter search when looking at the Results List. Also the droids only let you search Lasagna and Chicken, go figure.</string>
+    <string name="aboutHelp">TODO: how to use help</string>
     <string name="navagation_drawer_open">open navigation drawer</string>
     <string name="navagation_drawer_close">close navigation drawer</string>
     <string name="about_body">This app is the final project of CST2335 xxxx TODO: Introduce this app, author, function details</string>
+    <string name="search_title">Search</string>
+    <string name="fav_title">My Favorite</string>
+    <string name="about_title">Information</string>
+    <string name="detail_title">Recipe</string>
+    <string name="favSearchHint">Search in my favourite</string>
+    <string name="favSearchButton">Filter</string>
+    <string name="homeToast">You\'re at home!</string>
+    <string name="searchToast">You\'re searching!</string>
+    <string name="favToast">I\'m your favorite!</string>
+    <string name="aboutToast">You\'re in the information page!</string>
+
     <!-- This is the end of Recipe Values. Thanks! DNT! -->
 
 
