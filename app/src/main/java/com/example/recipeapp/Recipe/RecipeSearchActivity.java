@@ -12,14 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.recipeapp.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  * This class shows the listviews and allows for searching.
  * It extends AppCompatActivity
  */
-public class RecipeSearch extends AppCompatActivity {
+public class RecipeSearchActivity extends AppCompatActivity {
 
     private Menu menu;
     private Toolbar toolbar;
@@ -45,6 +46,7 @@ public class RecipeSearch extends AppCompatActivity {
     private ListView list;
     private ProgressBar progressBar;
     private ArrayList<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
+    private String rawJson;
 //    private RecipeDatabaseHelper opener;
 //    private SimpleCursorAdapter chatAdapter;
 
@@ -81,7 +83,8 @@ public class RecipeSearch extends AppCompatActivity {
                     sb.append(line + "\n");
                 }
 
-                JSONArray json_recipes = new JSONArray(sb.toString());
+                rawJson = sb.toString();
+                JSONArray json_recipes = new JSONArray(rawJson);
 
                 for (int j = 0; j < json_recipes.length(); j++) {
                     publishProgress((j+1) * (100 / json_recipes.length()));
@@ -127,21 +130,9 @@ public class RecipeSearch extends AppCompatActivity {
         @Override                   //Type 3 of Inner Created Class
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
-            progressBar.setProgress(0);
-            ArrayAdapter adapter = new ArrayAdapter(RecipeSearch.this, R.layout.list_item, recipes);
+            ArrayAdapter adapter = new ArrayAdapter(RecipeSearchActivity.this, R.layout.list_item, recipes);
             list.setAdapter(adapter);
             list.deferNotifyDataSetChanged();
-
-
-            // FIXME
-            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-            SharedPreferences.Editor editor = pref.edit();
-
-            editor.commit();
-
-//            Intent intent = new Intent(RecipeAsync.this, RecipeSearch.class);
-//            startActivityForResult(intent, 30);
-
         }
 
     }
@@ -183,7 +174,7 @@ public class RecipeSearch extends AppCompatActivity {
                         .replace(R.id.recipeFragmentLocation, fragment)
                         .commit();
             } else { //isPhone
-                Intent goToDetail = new Intent(RecipeSearch.this, RecipeEmptyActivity.class);
+                Intent goToDetail = new Intent(RecipeSearchActivity.this, RecipeEmptyActivity.class);
                 goToDetail.putExtras(bundle); //send data to next activity
                 startActivity(goToDetail); //make the transition
             }
@@ -192,27 +183,66 @@ public class RecipeSearch extends AppCompatActivity {
 
         searchButton = findViewById(R.id.recipeSearchButton);
         searchText = findViewById(R.id.searchEditText);
-        searchButton.setOnClickListener(click ->
-        {
+        searchButton.setOnClickListener(click -> {
+            recipes.clear();
+            ArrayAdapter adapter = new ArrayAdapter(RecipeSearchActivity.this, R.layout.list_item, recipes);
+            list.setAdapter(adapter);
+            list.deferNotifyDataSetChanged();
             new FetchRecipeList().execute(searchText.getText().toString());
-            //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-//            Snackbar.make(searchButton, "Searching online for Chicken. That is what you typed right?", Snackbar.LENGTH_LONG).show();
-//            Intent nextActivity = new Intent(RecipeSearch.this, RecipeAsync.class);
-//            nextActivity.putExtra(RecipeAsync.RECIPE_QUERY, searchText.getText().toString());
-//            startActivityForResult(nextActivity, 346); //make the transition
-
-//            list.deferNotifyDataSetChanged();
-
-//            searchButton.setEnabled(false);
-//            searchText.setEnabled(false);
         });
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        String lastSearch = pref.getString("search_keyword", "");
+        RelativeLayout slayout = findViewById(R.id.linearLayout);
+        if (!lastSearch.isEmpty()) {
+            Snackbar.make(slayout, getString(R.string.lastSearchPrompt) + lastSearch, Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(slayout, getString(R.string.firstSearchPrompt), Snackbar.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("search_result_json");
+        editor.putString("search_keyword", searchText.getText().toString());
+        editor.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("search_result_json", rawJson);
+        editor.putString("search_keyword", searchText.getText().toString());
+        editor.commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ArrayAdapter adapter = new ArrayAdapter(RecipeSearch.this, R.layout.list_item, recipes);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+//        searchText.setText(pref.getString("search_keyword", ""));
+        rawJson = pref.getString("search_result_json", "[]");
+        recipes.clear();
+        try {
+            JSONArray json_recipes = new JSONArray(rawJson);
+            for (int j = 0; j < json_recipes.length(); j++) {
+                JSONObject r = json_recipes.getJSONObject(j);
+                RecipeEntry recipe = new RecipeEntry();
+                recipe.id = r.getLong("id");
+                recipe.title = r.getString("title");
+                recipe.imageUrl = r.getString("image");
+                recipes.add(recipe);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayAdapter adapter = new ArrayAdapter(RecipeSearchActivity.this, R.layout.list_item, recipes);
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
     }
@@ -243,20 +273,20 @@ public class RecipeSearch extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.toolbar_home:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeSearch.this, RecipeMain.class);
+                Intent nextActivity2 = new Intent(RecipeSearchActivity.this, RecipeMainActivity.class);
                 startActivityForResult(nextActivity2, 346);
                 break;
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeSearchHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.searchHelp))
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
             case R.id.toolbar_fav:
-                Intent goToFav = new Intent(RecipeSearch.this, RecipeFavActivity.class);
+                Intent goToFav = new Intent(RecipeSearchActivity.this, RecipeFavActivity.class);
                 startActivity(goToFav);
                 break;
 //                if (showFave) {
@@ -269,7 +299,7 @@ public class RecipeSearch extends AppCompatActivity {
 //                showFave = !showFave;
 //                break;
             case R.id.toolbar_about:
-                Intent goToAbout = new Intent(RecipeSearch.this, AboutMeActivity.class);
+                Intent goToAbout = new Intent(RecipeSearchActivity.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
             case R.id.toolbar_search:

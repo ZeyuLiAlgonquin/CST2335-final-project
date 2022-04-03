@@ -1,6 +1,7 @@
 package com.example.recipeapp.Recipe;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -11,13 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.recipeapp.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -69,6 +73,7 @@ public class RecipeFavActivity extends AppCompatActivity {
             bundle.putLong("id", entry.id);
             bundle.putString("title", entry.title);
             bundle.putString("imageUrl", entry.imageUrl);
+            bundle.putString("details", entry.details);
 
             boolean isTablet = findViewById(R.id.recipeFragmentLocation) != null;
             if (isTablet) {
@@ -86,6 +91,22 @@ public class RecipeFavActivity extends AppCompatActivity {
             }
         });
 
+        list.setOnItemLongClickListener((mlist, item, position, id) -> {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            RecipeEntry recipe = recipes.get(position);
+            alertDialogBuilder.setTitle("Do you want to delete this?")
+                    .setMessage(recipe.title)
+                    .setPositiveButton("Yes", (click, arg) -> {
+                        recipes.remove(position);
+                        RecipeDAO.deleteFavRecipe(helper, recipe.id);
+                        list.setAdapter(new ArrayAdapter(this, R.layout.list_item, recipes));
+                        list.deferNotifyDataSetChanged();
+                    })
+                    .setNegativeButton("No", (click, arg) -> {
+                    })
+                    .create().show();
+            return true;
+        });
 
         filterText = findViewById(R.id.favFilterText);
         filterButton = findViewById(R.id.favFilterButton);
@@ -97,13 +118,33 @@ public class RecipeFavActivity extends AppCompatActivity {
             Log.e("recipes", Integer.toString(recipes.size()));
             list.setAdapter(new ArrayAdapter(this, R.layout.list_item, recipes));
             list.deferNotifyDataSetChanged();
+
+            Toast.makeText(this, Integer.toString(recipes.size()) + getString(R.string.favSearchCount) , Toast.LENGTH_LONG).show();
         });
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        String lastFilter = pref.getString("last_filter", "");
+        ConstraintLayout flayout = findViewById(R.id.fav_layout);
+        if (!lastFilter.isEmpty()) {
+            Snackbar.make(flayout, getString(R.string.favLastSearchPrompt) + lastFilter, Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(flayout, getString(R.string.favFirstSearchPrompt), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("last_filter", filterText.getText().toString());
+        editor.commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
     }
 
     /**
@@ -132,37 +173,28 @@ public class RecipeFavActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.toolbar_home:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(this, RecipeMain.class);
+                Intent nextActivity2 = new Intent(this, RecipeMainActivity.class);
                 startActivityForResult(nextActivity2, 346);
                 break;
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeSearchHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favHelp))
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
-            case R.id.toolbar_fav:
-                Intent goToFav = new Intent(this, RecipeFavActivity.class);
-                startActivity(goToFav);
+            case R.id.toolbar_search:
+                Intent goToSearch = new Intent(this, RecipeSearchActivity.class);
+                startActivity(goToSearch);
                 break;
-//                if (showFave) {
-//                    showResults();
-//                    menu.getItem(0).setIcon(R.drawable.star_unfilled);
-//                } else {
-//                    showFavorite();
-//                    menu.getItem(0).setIcon(R.drawable.search);
-//                }
-//                showFave = !showFave;
-//                break;
             case R.id.toolbar_about:
                 Intent goToAbout = new Intent(this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
-            case R.id.toolbar_search:
-                Toast.makeText(this, getString(R.string.searchToast), Toast.LENGTH_LONG).show();
+            case R.id.toolbar_fav:
+                Toast.makeText(this, getString(R.string.favToast), Toast.LENGTH_LONG).show();
 
         }
         return super.onOptionsItemSelected(item);

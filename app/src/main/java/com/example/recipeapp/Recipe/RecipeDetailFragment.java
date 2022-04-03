@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.recipeapp.R;
@@ -58,6 +59,7 @@ public class RecipeDetailFragment extends Fragment {
          * @param @See AsyncTask.doInBackground()
          * @return @See AsyncTask.doInBackground()
          */
+        @Nullable
         @Override
         protected String doInBackground(Long... params) {
             Long recipeId = params[0];
@@ -114,6 +116,7 @@ public class RecipeDetailFragment extends Fragment {
         @Override                   //Type 3 of Inner Created Class
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
+            titleTextView.setText(recipe.title);
             Spanned text = Html.fromHtml(recipe.details);
             detailTextView.setMovementMethod(LinkMovementMethod.getInstance());
             detailTextView.setText(text);

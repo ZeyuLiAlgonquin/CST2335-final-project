@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,7 +62,7 @@ public class RecipeEmptyActivity extends AppCompatActivity {
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.recipeMainHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.mainHelp))
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -80,7 +79,7 @@ public class RecipeEmptyActivity extends AppCompatActivity {
 
             case R.id.toolbar_search:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeEmptyActivity.this, RecipeSearch.class);
+                Intent nextActivity2 = new Intent(RecipeEmptyActivity.this, RecipeSearchActivity.class);
                 startActivityForResult(nextActivity2, 346);
                 break;
 
@@ -89,7 +88,7 @@ public class RecipeEmptyActivity extends AppCompatActivity {
                 startActivity(goToAbout);
                 break;
             case R.id.toolbar_home:
-                Intent goHome = new Intent(RecipeEmptyActivity.this, RecipeMain.class);
+                Intent goHome = new Intent(RecipeEmptyActivity.this, RecipeMainActivity.class);
                 startActivityForResult(goHome, 346);
         }
         return super.onOptionsItemSelected(item);

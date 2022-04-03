@@ -50,7 +50,7 @@ public class AboutMeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.toolbar_home:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(AboutMeActivity.this, RecipeMain.class);
+                Intent nextActivity2 = new Intent(AboutMeActivity.this, RecipeMainActivity.class);
                 startActivityForResult(nextActivity2, 346);
                 break;
             case R.id.toolbar_help:
@@ -76,7 +76,7 @@ public class AboutMeActivity extends AppCompatActivity {
 //                showFave = !showFave;
 //                break;
             case R.id.toolbar_search:
-                Intent goToSearch = new Intent(AboutMeActivity.this, RecipeSearch.class);
+                Intent goToSearch = new Intent(AboutMeActivity.this, RecipeSearchActivity.class);
                 startActivity(goToSearch);
                 break;
             case R.id.toolbar_about:
