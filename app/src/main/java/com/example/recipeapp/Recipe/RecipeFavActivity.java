@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -85,7 +84,7 @@ public class RecipeFavActivity extends AppCompatActivity {
                         .replace(R.id.recipeFragmentLocation, fragment)
                         .commit();
             } else { //isPhone
-                Intent goToDetail = new Intent(this, RecipeEmptyActivity.class);
+                Intent goToDetail = new Intent(this, FavEmptyActivity.class);
                 goToDetail.putExtras(bundle); //send data to next activity
                 startActivity(goToDetail); //make the transition
             }

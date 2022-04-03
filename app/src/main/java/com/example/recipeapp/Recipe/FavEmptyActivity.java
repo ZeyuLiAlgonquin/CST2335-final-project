@@ -14,7 +14,7 @@ import com.example.recipeapp.R;
 /**
  * Activity to hold our fragments, extends AppCompatActivity
  */
-public class RecipeEmptyActivity extends AppCompatActivity {
+public class FavEmptyActivity extends AppCompatActivity {
 
     /**onCreate for RecipeEmptyActivity to hold our fragment
      * @param savedInstanceState  @see AppCompatActivity.onCreate()
@@ -62,7 +62,7 @@ public class RecipeEmptyActivity extends AppCompatActivity {
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.mainHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favDetailHelp))
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -70,7 +70,7 @@ public class RecipeEmptyActivity extends AppCompatActivity {
                 break;
             case R.id.toolbar_fav:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity = new Intent(RecipeEmptyActivity.this, RecipeFavActivity.class);
+                Intent nextActivity = new Intent(FavEmptyActivity.this, RecipeFavActivity.class);
                 startActivity(nextActivity);
 //                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
 //                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
@@ -79,16 +79,16 @@ public class RecipeEmptyActivity extends AppCompatActivity {
 
             case R.id.toolbar_search:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeEmptyActivity.this, RecipeSearchActivity.class);
+                Intent nextActivity2 = new Intent(FavEmptyActivity.this, RecipeSearchActivity.class);
                 startActivityForResult(nextActivity2, 346);
                 break;
 
             case R.id.toolbar_about:
-                Intent goToAbout = new Intent(RecipeEmptyActivity.this, AboutMeActivity.class);
+                Intent goToAbout = new Intent(FavEmptyActivity.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
             case R.id.toolbar_home:
-                Intent goHome = new Intent(RecipeEmptyActivity.this, RecipeMainActivity.class);
+                Intent goHome = new Intent(FavEmptyActivity.this, RecipeMainActivity.class);
                 startActivityForResult(goHome, 346);
         }
         return super.onOptionsItemSelected(item);

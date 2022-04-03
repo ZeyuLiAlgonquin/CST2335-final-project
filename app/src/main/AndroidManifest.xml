@@ -17,7 +17,6 @@
         <activity android:name=".Recipe.RecipeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -33,12 +32,16 @@
             android:label="@string/search_title"
             android:parentActivityName=".Recipe.RecipeMainActivity" />
         <activity
-            android:name=".Recipe.RecipeEmptyActivity"
+            android:name=".Recipe.SearchEmptyActivity"
             android:label="@string/detail_title"
             android:parentActivityName=".Recipe.RecipeSearchActivity" />
-<!--        <activity android:name=".Recipe.RecipeDetailFragment" android:parentActivityName=".Recipe.RecipeMain" />-->
-<!--        <activity android:name=".ui.activities.HomeActivity"-->
-<!--            android:parentActivityName=".ui.activities.MainActivity/>-->
+        <activity
+            android:name=".Recipe.FavEmptyActivity"
+            android:label="@string/detail_title"
+            android:parentActivityName=".Recipe.RecipeFavActivity" />
+        <!--        <activity android:name=".Recipe.RecipeDetailFragment" android:parentActivityName=".Recipe.RecipeMain" />-->
+        <!--        <activity android:name=".ui.activities.HomeActivity"-->
+        <!--            android:parentActivityName=".ui.activities.MainActivity/>-->
         <activity
             android:name=".Recipe.RecipeFavActivity"
             android:label="@string/fav_title"

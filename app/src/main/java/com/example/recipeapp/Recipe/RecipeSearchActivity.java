@@ -174,7 +174,7 @@ public class RecipeSearchActivity extends AppCompatActivity {
                         .replace(R.id.recipeFragmentLocation, fragment)
                         .commit();
             } else { //isPhone
-                Intent goToDetail = new Intent(RecipeSearchActivity.this, RecipeEmptyActivity.class);
+                Intent goToDetail = new Intent(RecipeSearchActivity.this, SearchEmptyActivity.class);
                 goToDetail.putExtras(bundle); //send data to next activity
                 startActivity(goToDetail); //make the transition
             }
