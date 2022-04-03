@@ -32,7 +32,6 @@
             android:name=".Recipe.RecipeSearch"
             android:label="@string/search_title"
             android:parentActivityName=".Recipe.RecipeMain" />
-        <activity android:name=".Recipe.RecipeAsync" />
         <activity
             android:name=".Recipe.RecipeEmptyActivity"
             android:label="@string/detail_title"

@@ -109,8 +109,8 @@ public class RecipeMain extends AppCompatActivity implements NavigationView.OnNa
                 startActivity(goToSearch);
                 break;
             case R.id.drawer_fav:
-                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
-                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
+                Intent nextActivity = new Intent(RecipeMain.this, RecipeFavActivity.class);
+//                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
                 startActivityForResult(nextActivity, 346); //make the transition
                 break;
             case R.id.drawer_help:

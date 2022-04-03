@@ -1,18 +1,17 @@
 package com.example.recipeapp.Recipe;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,9 +20,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.recipeapp.R;
-import com.google.android.material.snackbar.Snackbar;
 
-import static com.example.recipeapp.Recipe.RecipeDatabaseHelper.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * This class shows the listviews and allows for searching.
@@ -31,19 +38,113 @@ import static com.example.recipeapp.Recipe.RecipeDatabaseHelper.*;
  */
 public class RecipeSearch extends AppCompatActivity {
 
-    public static String SHOW_FAVE = "SHOW_FAVE";
-
-    private SQLiteDatabase db;
-    private Cursor cursor;
     private Menu menu;
     private Toolbar toolbar;
     private Button searchButton;
     private EditText searchText;
     private ListView list;
-    private RecipeDatabaseHelper opener;
-    private SimpleCursorAdapter chatAdapter;
+    private ProgressBar progressBar;
+    private ArrayList<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
+//    private RecipeDatabaseHelper opener;
+//    private SimpleCursorAdapter chatAdapter;
 
-    private boolean showFave = false;
+
+    private class FetchRecipeList extends AsyncTask<String, Integer, String> {
+
+        private final String urlTemplate = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=2311513282b7432684777caf629d344a&number=10&ingredients=%s";
+
+        /**
+         * This Overrides AsyncTask.doInBackGround()
+         * <p>
+         * It pulls the search results based on what the droids want you to think.
+         * <p>
+         * Basically it switches between searching Chicken and Lasagna
+         *
+         * @param @See AsyncTask.doInBackground()
+         * @return @See AsyncTask.doInBackground()
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String ingredients = params[0];
+                String rawUrl = String.format(urlTemplate, ingredients);
+                URL url = new URL(rawUrl);
+
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream inStream = urlConnection.getInputStream();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                JSONArray json_recipes = new JSONArray(sb.toString());
+
+                for (int j = 0; j < json_recipes.length(); j++) {
+                    publishProgress((j+1) * (100 / json_recipes.length()));
+
+                    JSONObject r = json_recipes.getJSONObject(j);
+                    RecipeEntry recipe = new RecipeEntry();
+                    recipe.id = r.getLong("id");
+                    recipe.title = r.getString("title");
+                    recipe.imageUrl = r.getString("image");
+                    recipes.add(recipe);
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            return null;
+        }
+
+        /**
+         * This method takes the param values to update our progress bar.
+         * it keeps the search button and text field out of view while the progress bar is used.
+         *
+         * @param values
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+
+        }
+
+        /**
+         * This method Overrides the super class's onPostExecute.
+         * It calls the super method and turns back on the visibility for the search button and text
+         * It saves the value of the boolean that keeps track of what was last searched sends us back to our listView of the results
+         *
+         * @param results @See AsyncTask.onPostExecute()
+         */
+        @Override                   //Type 3 of Inner Created Class
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+            progressBar.setProgress(0);
+            ArrayAdapter adapter = new ArrayAdapter(RecipeSearch.this, R.layout.list_item, recipes);
+            list.setAdapter(adapter);
+            list.deferNotifyDataSetChanged();
+
+
+            // FIXME
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+            SharedPreferences.Editor editor = pref.edit();
+
+            editor.commit();
+
+//            Intent intent = new Intent(RecipeAsync.this, RecipeSearch.class);
+//            startActivityForResult(intent, 30);
+
+        }
+
+    }
 
     /**
      * This Overrides the superclass's onCreate method,
@@ -57,69 +158,63 @@ public class RecipeSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
+        progressBar = findViewById(R.id.recipeSearchProgressBar);
+
         toolbar = (Toolbar) findViewById(R.id.recipe_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        searchButton = findViewById(R.id.recipeSearchButton);
-        searchText = findViewById(R.id.searchEditText);
-        list = findViewById(R.id.recipeListView);
-        opener = new RecipeDatabaseHelper(this);
-
-        //Set up views
-        showFave = this.getIntent().getBooleanExtra(SHOW_FAVE, false);
-        if (showFave) {
-            showFavorite();
-        } else {
-            showResults();
-        }
-
         //This is the onClickListener for my List
+        list = findViewById(R.id.recipeListView);
         list.setOnItemClickListener((mlist, item, position, id) -> {
-
-            cursor.moveToPosition(position);
-
-            Bundle mBundle = new Bundle();
-            mBundle.putString(PK_ID, cursor.getString(cursor.getColumnIndex(PK_ID)));
-            mBundle.putString(COL_TITLE, cursor.getString(cursor.getColumnIndex(COL_TITLE)));
-            mBundle.putString(COL_IMAGE, cursor.getString(cursor.getColumnIndex(COL_IMAGE)));
-            mBundle.putString(COL_DETAIL, cursor.getString(cursor.getColumnIndex(COL_DETAIL)));
-            mBundle.putString(COL_RECIPE_ID, cursor.getString(cursor.getColumnIndex(COL_RECIPE_ID)));
-            mBundle.putInt("position", position);
+            Bundle bundle = new Bundle();
+            RecipeEntry entry = recipes.get(position);
+            bundle.putLong("id", entry.id);
+            bundle.putString("title", entry.title);
+            bundle.putString("imageUrl", entry.imageUrl);
 
             boolean isTablet = findViewById(R.id.recipeFragmentLocation) != null;
             if (isTablet) {
                 RecipeDetailFragment fragment = new RecipeDetailFragment();
-                fragment.setArguments(mBundle);
+                fragment.setArguments(bundle);
                 fragment.setTablet(true);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.recipeFragmentLocation, fragment)
                         .commit();
-            } else //isPhone
-            {
-                Intent nextActivity = new Intent(RecipeSearch.this, RecipeEmptyActivity.class);
-                nextActivity.putExtras(mBundle); //send data to next activity
-                startActivityForResult(nextActivity, 346); //make the transition
-
+            } else { //isPhone
+                Intent goToDetail = new Intent(RecipeSearch.this, RecipeEmptyActivity.class);
+                goToDetail.putExtras(bundle); //send data to next activity
+                startActivity(goToDetail); //make the transition
             }
         });
 
 
+        searchButton = findViewById(R.id.recipeSearchButton);
+        searchText = findViewById(R.id.searchEditText);
         searchButton.setOnClickListener(click ->
         {
+            new FetchRecipeList().execute(searchText.getText().toString());
             //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-            Snackbar.make(searchButton, "Searching online for Chicken. That is what you typed right?", Snackbar.LENGTH_LONG).show();
-            Intent nextActivity = new Intent(RecipeSearch.this, RecipeAsync.class);
-            nextActivity.putExtra(RecipeAsync.RECIPE_QUERY, searchText.getText().toString());
-            startActivityForResult(nextActivity, 346); //make the transition
+//            Snackbar.make(searchButton, "Searching online for Chicken. That is what you typed right?", Snackbar.LENGTH_LONG).show();
+//            Intent nextActivity = new Intent(RecipeSearch.this, RecipeAsync.class);
+//            nextActivity.putExtra(RecipeAsync.RECIPE_QUERY, searchText.getText().toString());
+//            startActivityForResult(nextActivity, 346); //make the transition
 
-            list.deferNotifyDataSetChanged();
+//            list.deferNotifyDataSetChanged();
 
-            searchButton.setEnabled(false);
-            searchText.setEnabled(false);
+//            searchButton.setEnabled(false);
+//            searchText.setEnabled(false);
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayAdapter adapter = new ArrayAdapter(RecipeSearch.this, R.layout.list_item, recipes);
+        list.setAdapter(adapter);
+        list.deferNotifyDataSetChanged();
     }
 
     /**
@@ -178,84 +273,10 @@ public class RecipeSearch extends AppCompatActivity {
                 startActivity(goToAbout);
                 break;
             case R.id.toolbar_search:
-                Toast.makeText(this,getString(R.string.searchToast) , Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.searchToast), Toast.LENGTH_LONG).show();
 
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        finish();
-    }
-
-    /**
-     * This method is to load the Favorite table into the list view
-     */
-    private void showFavorite() {
-        try {
-            db = opener.getWritableDatabase();
-            cursor = opener.getCursor("faveTable");
-
-            chatAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_2,
-                    cursor,
-                    new String[]{COL_TITLE/*, PUBLISHER, COL_IMAGE, PK_ID*/},
-                    new int[]{android.R.id.text1/*, android.R.id.text2*/},
-                    0);
-            list.setAdapter(chatAdapter);
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this,
-                    "Database unavailable",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        list.deferNotifyDataSetChanged();
-
-        searchText.setVisibility(View.INVISIBLE);
-        searchButton.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * This method is to load the Search Results Table into the List
-     */
-    private void showResults() {
-        try {
-            db = opener.getWritableDatabase();
-            cursor = opener.getCursor("resultTable");
-
-            chatAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_2,
-                    cursor,
-                    new String[]{COL_TITLE/*, COL_RECIPE_ID, COL_IMAGE, PK_ID*/},
-                    new int[]{android.R.id.text1/*, android.R.id.text2*/},
-                    0);
-            list.setAdapter(chatAdapter);
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this,
-                    "Database unavailable",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
-        list.deferNotifyDataSetChanged();
-
-        searchText.setVisibility(View.VISIBLE);
-        searchButton.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * This method ensures that the right Table is shown in the list. And that it is updated if its
-     * the Favorites Table. It needs to recheck the database for new entries or in case one was deleted.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (showFave) {
-            showFavorite();
-        } else {
-            showResults();
-        }
-    }
 }

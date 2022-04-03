@@ -1,29 +1,25 @@
 package com.example.recipeapp.Recipe;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.recipeapp.R;
-import com.google.android.material.snackbar.Snackbar;
 
-import static com.example.recipeapp.Recipe.RecipeDatabaseHelper.*;
+import java.util.ArrayList;
 
 /**
  * This class shows the listviews and allows for searching.
@@ -31,19 +27,15 @@ import static com.example.recipeapp.Recipe.RecipeDatabaseHelper.*;
  */
 public class RecipeFavActivity extends AppCompatActivity {
 
-    public static String SHOW_FAVE = "SHOW_FAVE";
-
-    private SQLiteDatabase db;
-    private Cursor cursor;
     private Menu menu;
     private Toolbar toolbar;
-    private Button searchButton;
-    private EditText searchText;
+    private Button filterButton;
+    private EditText filterText;
     private ListView list;
-    private RecipeDatabaseHelper opener;
-    private SimpleCursorAdapter chatAdapter;
-
-    private boolean showFave = false;
+    private ProgressBar progressBar;
+    private ArrayList<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
+//    private RecipeDatabaseHelper opener;
+//    private SimpleCursorAdapter chatAdapter;
 
     /**
      * This Overrides the superclass's onCreate method,
@@ -55,71 +47,63 @@ public class RecipeFavActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search);
+        setContentView(R.layout.fav);
+
+        progressBar = findViewById(R.id.favProgressBar);
 
         toolbar = (Toolbar) findViewById(R.id.recipe_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        searchButton = findViewById(R.id.recipeSearchButton);
-        searchText = findViewById(R.id.searchEditText);
-        list = findViewById(R.id.recipeListView);
-        opener = new RecipeDatabaseHelper(this);
-
-        //Set up views
-        showFave = this.getIntent().getBooleanExtra(SHOW_FAVE, false);
-        if (showFave) {
-            showFavorite();
-        } else {
-            showResults();
-        }
-
         //This is the onClickListener for my List
+        list = findViewById(R.id.favRecipeListView);
+        RecipeDatabaseHelper helper = new RecipeDatabaseHelper(this);
+        recipes = RecipeDAO.listFavRecipes(helper, "");
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item, recipes);
+        list.setAdapter(adapter);
+        list.deferNotifyDataSetChanged();
+
         list.setOnItemClickListener((mlist, item, position, id) -> {
-
-            cursor.moveToPosition(position);
-
-            Bundle mBundle = new Bundle();
-            mBundle.putString(PK_ID, cursor.getString(cursor.getColumnIndex(PK_ID)));
-            mBundle.putString(COL_TITLE, cursor.getString(cursor.getColumnIndex(COL_TITLE)));
-            mBundle.putString(COL_IMAGE, cursor.getString(cursor.getColumnIndex(COL_IMAGE)));
-            mBundle.putString(COL_DETAIL, cursor.getString(cursor.getColumnIndex(COL_DETAIL)));
-            mBundle.putString(COL_RECIPE_ID, cursor.getString(cursor.getColumnIndex(COL_RECIPE_ID)));
-            mBundle.putInt("position", position);
+            Bundle bundle = new Bundle();
+            RecipeEntry entry = recipes.get(position);
+            bundle.putLong("id", entry.id);
+            bundle.putString("title", entry.title);
+            bundle.putString("imageUrl", entry.imageUrl);
 
             boolean isTablet = findViewById(R.id.recipeFragmentLocation) != null;
             if (isTablet) {
                 RecipeDetailFragment fragment = new RecipeDetailFragment();
-                fragment.setArguments(mBundle);
+                fragment.setArguments(bundle);
                 fragment.setTablet(true);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.recipeFragmentLocation, fragment)
                         .commit();
-            } else //isPhone
-            {
-                Intent nextActivity = new Intent(RecipeFavActivity.this, RecipeEmptyActivity.class);
-                nextActivity.putExtras(mBundle); //send data to next activity
-                startActivityForResult(nextActivity, 346); //make the transition
-
+            } else { //isPhone
+                Intent goToDetail = new Intent(this, RecipeEmptyActivity.class);
+                goToDetail.putExtras(bundle); //send data to next activity
+                startActivity(goToDetail); //make the transition
             }
         });
 
 
-        searchButton.setOnClickListener(click ->
-        {
-            //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-            Snackbar.make(searchButton, "Searching online for Chicken. That is what you typed right?", Snackbar.LENGTH_LONG).show();
-            Intent nextActivity = new Intent(RecipeFavActivity.this, RecipeAsync.class);
-            nextActivity.putExtra(RecipeAsync.RECIPE_QUERY, searchText.getText().toString());
-            startActivityForResult(nextActivity, 346); //make the transition
-
+        filterText = findViewById(R.id.favFilterText);
+        filterButton = findViewById(R.id.favFilterButton);
+        filterButton.setOnClickListener(click -> {
+//            RecipeDatabaseHelper hp = new RecipeDatabaseHelper(this);
+            String keyword = filterText.getText().toString();
+            Log.e("keyword", keyword);
+            recipes = RecipeDAO.listFavRecipes(helper, keyword);
+            Log.e("recipes", Integer.toString(recipes.size()));
+            list.setAdapter(new ArrayAdapter(this, R.layout.list_item, recipes));
             list.deferNotifyDataSetChanged();
-
-            searchButton.setEnabled(false);
-            searchText.setEnabled(false);
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     /**
@@ -132,12 +116,7 @@ public class RecipeFavActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.home_toolbar, menu);
-
-        if (showFave) {
-            menu.getItem(0).setIcon(R.drawable.search);
-        }
-
+        getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
         this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
@@ -151,7 +130,11 @@ public class RecipeFavActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
+            case R.id.toolbar_home:
+                // RecipeSearch.setTable = false;
+                Intent nextActivity2 = new Intent(this, RecipeMain.class);
+                startActivityForResult(nextActivity2, 346);
+                break;
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
@@ -161,99 +144,28 @@ public class RecipeFavActivity extends AppCompatActivity {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
-            case R.id.recipeFav:
-
-                if (showFave) {
-                    showResults();
-                    menu.getItem(0).setIcon(R.drawable.star_unfilled);
-                } else {
-                    showFavorite();
-                    menu.getItem(0).setIcon(R.drawable.search);
-                }
-                showFave = !showFave;
+            case R.id.toolbar_fav:
+                Intent goToFav = new Intent(this, RecipeFavActivity.class);
+                startActivity(goToFav);
                 break;
-
-            case R.id.toolbar_home:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeFavActivity.this, RecipeMain.class);
-                startActivityForResult(nextActivity2, 346);
+//                if (showFave) {
+//                    showResults();
+//                    menu.getItem(0).setIcon(R.drawable.star_unfilled);
+//                } else {
+//                    showFavorite();
+//                    menu.getItem(0).setIcon(R.drawable.search);
+//                }
+//                showFave = !showFave;
+//                break;
+            case R.id.toolbar_about:
+                Intent goToAbout = new Intent(this, AboutMeActivity.class);
+                startActivity(goToAbout);
                 break;
+            case R.id.toolbar_search:
+                Toast.makeText(this, getString(R.string.searchToast), Toast.LENGTH_LONG).show();
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        finish();
-    }
-
-    /**
-     * This method is to load the Favorite table into the list view
-     */
-    private void showFavorite() {
-        try {
-            db = opener.getWritableDatabase();
-            cursor = opener.getCursor("faveTable");
-
-            chatAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_2,
-                    cursor,
-                    new String[]{COL_TITLE/*, PUBLISHER, COL_IMAGE, PK_ID*/},
-                    new int[]{android.R.id.text1/*, android.R.id.text2*/},
-                    0);
-            list.setAdapter(chatAdapter);
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this,
-                    "Database unavailable",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        list.deferNotifyDataSetChanged();
-
-        searchText.setVisibility(View.INVISIBLE);
-        searchButton.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * This method is to load the Search Results Table into the List
-     */
-    private void showResults() {
-        try {
-            db = opener.getWritableDatabase();
-            cursor = opener.getCursor("resultTable");
-
-            chatAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_2,
-                    cursor,
-                    new String[]{COL_TITLE/*, COL_RECIPE_ID, COL_IMAGE, PK_ID*/},
-                    new int[]{android.R.id.text1/*, android.R.id.text2*/},
-                    0);
-            list.setAdapter(chatAdapter);
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this,
-                    "Database unavailable",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
-        list.deferNotifyDataSetChanged();
-
-        searchText.setVisibility(View.VISIBLE);
-        searchButton.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * This method ensures that the right Table is shown in the list. And that it is updated if its
-     * the Favorites Table. It needs to recheck the database for new entries or in case one was deleted.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (showFave) {
-            showFavorite();
-        } else {
-            showResults();
-        }
-    }
 }

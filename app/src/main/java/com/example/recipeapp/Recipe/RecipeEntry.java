@@ -1,8 +1,12 @@
 package com.example.recipeapp.Recipe;
 
 public class RecipeEntry {
-    public String id;
+    public Long id;
     public String title;
-    public String image_url;
+    public String imageUrl;
     public String details;
+
+    public String toString() {
+        return title;
+    }
 }

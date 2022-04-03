@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
@@ -10,55 +10,50 @@
     <include
         layout="@layout/toolbar" />
 
-    <ListView
-        android:id="@+id/recipeListView"
-        style="@android:style/Widget.DeviceDefault.ListView"
-        android:layout_width="match_parent"
-        android:layout_height="531dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_marginBottom="0dp"
-        android:tag="@string/recipeSearchEditText">
-
-
-    </ListView>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="69dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="62dp">
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="220dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="4dp"
-            android:hint="@string/favSearchHint"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.093"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.466"
-            tools:layout_conversion_absoluteHeight="0dp"
-            tools:layout_conversion_absoluteWidth="0dp" />
+        android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/favFilterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:text="@string/favSearchButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/favFilterText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/favSearchHint"
+            app:layout_constraintBottom_toBottomOf="@+id/favFilterButton"
+            app:layout_constraintEnd_toStartOf="@+id/favFilterButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/favProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favFilterText" />
+
+        <ListView
+            android:id="@+id/favRecipeListView"
+            android:layout_width="406dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/editText"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.476"
-            tools:layout_conversion_absoluteHeight="0dp"
-            tools:layout_conversion_absoluteWidth="0dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favProgressBar">
+
+
+        </ListView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
