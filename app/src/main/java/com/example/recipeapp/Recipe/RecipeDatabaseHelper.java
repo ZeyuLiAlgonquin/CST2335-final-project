@@ -1,20 +1,5 @@
 package com.example.recipeapp.Recipe;
 
-//This is for my Recipe Activity
-
-/* this is what we will pull in a query row
-
-{
-"publisher": "BBC Good Food",
-"f2f_url": "http://food2fork.com/view/495802",
-"title": "Chicken cacciatore",
-"source_url": "http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore",
-"website": "495802",
-"image_url": "http://static.food2fork.com/4251_MEDIUM71f0.jpg",
-"social_rank": 99.99999994031722,
-"publisher_url": "http://www.bbcgoodfood.com"
-}
- */
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,29 +8,60 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**This is my DatabaseHelper class for the Recipe Portion
+/**This is my DatabaseHelper class for the Recipe Portion as a subclass of SQLiteOpenHelper
  *
  */
 public class RecipeDatabaseHelper extends SQLiteOpenHelper {
 
-
+    /**
+     * db name
+     */
     public static final String DB_NAME = "RecipeDB04";
+    /**
+     * version
+     */
     public static final int VERSION_NUM = 2;
+    /**
+     * favorite table name
+     */
     public static final String FAV_TABLE_NAME = "favorite_recipe";
+    /**
+     * column id
+     */
     public static final String COL_RECIPE_ID = "id";
+    /**
+     * column title
+     */
     public static final String COL_TITLE = "title";
+    /**
+     * column detail
+     */
     public static final String COL_DETAIL = "detail";
+    /**
+     * column image (url)
+     */
     public static final String COL_IMAGE = "image";
+    /**
+     * statement to create fav table with columns above
+     */
     private static final String CREATE_TABLE_STATEMENT = "CREATE TABLE " + FAV_TABLE_NAME + "( "
             + COL_RECIPE_ID + " INTEGER PRIMARY KEY, "
             + COL_TITLE + " TEXT, "
             + COL_IMAGE + " TEXT, "
             + COL_DETAIL + " TEXT)";
 
+    /**
+     * constructor with parameters, call from super class with local parameters
+     * @param context
+     */
     public RecipeDatabaseHelper(Context context) {
         super(context, DB_NAME, null, VERSION_NUM);
     }
 
+    /**
+     * create table in db
+     * @param db database
+     */
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_STATEMENT);
     }

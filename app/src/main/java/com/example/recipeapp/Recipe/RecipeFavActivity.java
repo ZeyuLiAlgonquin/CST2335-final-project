@@ -25,25 +25,47 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 /**
- * This class shows the listviews and allows for searching.
- * It extends AppCompatActivity
+ * It is favorite activity as a subclass of AppCompatActivity.
+ * It shows all favorite results in db in the list view and a snack bar with last search information in fav activity.
+ * It provided a filter to display specific results in list view with a toast to show the number of results.
+ * Tool bar can go to other activities (home, search, about) and up navigation. Help shows AlertDialog. Favorite displays toast.
+ * Long click on the item in list view can delete it from the db and the view
  */
 public class RecipeFavActivity extends AppCompatActivity {
 
-    private Menu menu;
+    /**
+     * tool bar to go to other activities
+     */
     private Toolbar toolbar;
+    /**
+     * filter button to show specific results
+     */
     private Button filterButton;
+    /**
+     * input keyword from user
+     */
     private EditText filterText;
+    /**
+     * list view to show results
+     */
     private ListView list;
+    /**
+     * progress bar
+     */
     private ProgressBar progressBar;
+    /**
+     * array list of RecipeEntry
+     */
     private ArrayList<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
-//    private RecipeDatabaseHelper opener;
-//    private SimpleCursorAdapter chatAdapter;
+
 
     /**
      * This Overrides the superclass's onCreate method,
-     * It sets up the tool bar and button as well as selects the right Table to show in the list view.
-     * It sets up the Click Listener for the listview and the search button.
+     * It sets up the tool bar and displays the favorite result in db in the list view
+     * It sets up the Click Listener for the listview on both phone and tablet.
+     * It can delete the record from db and listview by long clicking on the item in listview with alertDialog.
+     * It set up the action of a filter button to show results with a count toast.
+     * It shows the search keyword in this page last time in a snack bar with shared preference.
      *
      * @param savedInstanceState @See AppCompatActivity.onCreate()
      */
@@ -78,7 +100,7 @@ public class RecipeFavActivity extends AppCompatActivity {
             if (isTablet) {
                 RecipeDetailFragment fragment = new RecipeDetailFragment();
                 fragment.setArguments(bundle);
-                fragment.setTablet(true);
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.recipeFragmentLocation, fragment)
@@ -110,7 +132,6 @@ public class RecipeFavActivity extends AppCompatActivity {
         filterText = findViewById(R.id.favFilterText);
         filterButton = findViewById(R.id.favFilterButton);
         filterButton.setOnClickListener(click -> {
-//            RecipeDatabaseHelper hp = new RecipeDatabaseHelper(this);
             String keyword = filterText.getText().toString();
             Log.e("keyword", keyword);
             recipes = RecipeDAO.listFavRecipes(helper, keyword);
@@ -131,6 +152,10 @@ public class RecipeFavActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * It override onPause from super class.
+     * When paused, it stored last search keyword in this page into shared preference.
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -140,15 +165,10 @@ public class RecipeFavActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-    }
 
     /**
      * This method Overrides the superclass's onCreateOptionsMenu() method
-     * It sets up the toolbar and sets the toggleling icon based on the current list showing
+     * It sets up the toolbar menu
      *
      * @param menu @see AppCompatActivity.onCreateOptionsMenu()
      * @return
@@ -157,28 +177,27 @@ public class RecipeFavActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
         getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
-        this.menu = menu;
+
         return super.onCreateOptionsMenu(menu);
     }
 
     /**
      * This sets actions for what will happen when items in the Toolbar are clicked
      *
-     * @param item
-     * @return
+     * @param item item in toolbar
+     * @return super return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_home:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(this, RecipeMainActivity.class);
-                startActivityForResult(nextActivity2, 346);
+                Intent goHome = new Intent(this, RecipeMainActivity.class);
+                startActivity(goHome);
                 break;
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favHelp))//TODO
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -194,6 +213,7 @@ public class RecipeFavActivity extends AppCompatActivity {
                 break;
             case R.id.toolbar_fav:
                 Toast.makeText(this, getString(R.string.favToast), Toast.LENGTH_LONG).show();
+                break;
 
         }
         return super.onOptionsItemSelected(item);

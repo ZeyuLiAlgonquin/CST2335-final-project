@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- <activity android:name=".MainActivity"> -->
+
         <activity android:name=".Recipe.RecipeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,9 +39,7 @@
             android:name=".Recipe.FavEmptyActivity"
             android:label="@string/detail_title"
             android:parentActivityName=".Recipe.RecipeFavActivity" />
-        <!--        <activity android:name=".Recipe.RecipeDetailFragment" android:parentActivityName=".Recipe.RecipeMain" />-->
-        <!--        <activity android:name=".ui.activities.HomeActivity"-->
-        <!--            android:parentActivityName=".ui.activities.MainActivity/>-->
+
         <activity
             android:name=".Recipe.RecipeFavActivity"
             android:label="@string/fav_title"

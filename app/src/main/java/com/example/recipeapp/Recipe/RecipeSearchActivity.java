@@ -34,25 +34,50 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * This class shows the listviews and allows for searching.
+ * This class is Search activity. It allows for searching by accepting input and showing the results in listview with AsyncTask.
+ * It also shows a snack bar about the last search information if exists. A process bar display the process of task
+ * Tool bar can go to other activities (home, fav, about) and up navigation. Help shows AlertDialog. Search displays toast.
  * It extends AppCompatActivity
  */
 public class RecipeSearchActivity extends AppCompatActivity {
 
-    private Menu menu;
+    /**
+     * tool bar to go to other activities or show toast and alert dialog
+     */
     private Toolbar toolbar;
+    /**
+     * search button
+     */
     private Button searchButton;
+    /**
+     * edit text to input search keyword
+     */
     private EditText searchText;
+    /**
+     * list view to show search results
+     */
     private ListView list;
+    /**
+     * progress bar based on length of arraylist
+     */
     private ProgressBar progressBar;
+    /**
+     * arraylist to store RecipeEntry objects
+     */
     private ArrayList<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
+    /**
+     * private variable stores JSON string of recipe list
+     */
     private String rawJson;
-//    private RecipeDatabaseHelper opener;
-//    private SimpleCursorAdapter chatAdapter;
 
 
+    /**
+     * Inner class as a subclass of AsyncTask to finish the async task to download JSON and display in listview with a progress bar
+     */
     private class FetchRecipeList extends AsyncTask<String, Integer, String> {
-
+        /**
+         * private variable to store the url template in a string
+         */
         private final String urlTemplate = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=2311513282b7432684777caf629d344a&number=10&ingredients=%s";
 
         /**
@@ -60,7 +85,8 @@ public class RecipeSearchActivity extends AppCompatActivity {
          * <p>
          * It pulls the search results based on what the droids want you to think.
          * <p>
-         * Basically it switches between searching Chicken and Lasagna
+         * It starts a http connection with the concat of url template and user input keyword and get back the JSON.
+         * It sets the information of each recipe and store it into arraylist recipes. It also shows progress bar according to the length of recipes.
          *
          * @param @See AsyncTask.doInBackground()
          * @return @See AsyncTask.doInBackground()
@@ -109,7 +135,7 @@ public class RecipeSearchActivity extends AppCompatActivity {
 
         /**
          * This method takes the param values to update our progress bar.
-         * it keeps the search button and text field out of view while the progress bar is used.
+         *
          *
          * @param values
          */
@@ -127,7 +153,7 @@ public class RecipeSearchActivity extends AppCompatActivity {
          *
          * @param results @See AsyncTask.onPostExecute()
          */
-        @Override                   //Type 3 of Inner Created Class
+        @Override
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
             ArrayAdapter adapter = new ArrayAdapter(RecipeSearchActivity.this, R.layout.list_item, recipes);
@@ -139,9 +165,9 @@ public class RecipeSearchActivity extends AppCompatActivity {
 
     /**
      * This Overrides the superclass's onCreate method,
-     * It sets up the tool bar and button as well as selects the right Table to show in the list view.
-     * It sets up the Click Listener for the listview and the search button.
-     *
+     * It sets up the tool bar and progress bar.
+     * It sets up the Click Listener for the listview and the search button on both phone and tablet.
+     * It shows a snack bar with last search information.
      * @param savedInstanceState @See AppCompatActivity.onCreate()
      */
     @Override
@@ -168,7 +194,7 @@ public class RecipeSearchActivity extends AppCompatActivity {
             if (isTablet) {
                 RecipeDetailFragment fragment = new RecipeDetailFragment();
                 fragment.setArguments(bundle);
-                fragment.setTablet(true);
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.recipeFragmentLocation, fragment)
@@ -202,6 +228,11 @@ public class RecipeSearchActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * It override onDestroy from super class.
+     * When destroyed, the result of JSON would be removed and the search keyword would be kept.
+     * (So next time start, it will remember the keyword in the toast, without the search results list view.)
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -212,6 +243,11 @@ public class RecipeSearchActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    /**
+     * It override onPause from super class.
+     * When paused, the result of JSON and search keyword would be stored.
+     * (So next time come back, it will remember the keyword in toast and search results in list view.)
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -222,11 +258,15 @@ public class RecipeSearchActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    /**
+     * It overrides onResume from super class.
+     * When resumed, it will get the stored JSON and stored the recipe entry object in cleared arraylist and display in list view.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-//        searchText.setText(pref.getString("search_keyword", ""));
+
         rawJson = pref.getString("search_result_json", "[]");
         recipes.clear();
         try {
@@ -249,16 +289,16 @@ public class RecipeSearchActivity extends AppCompatActivity {
 
     /**
      * This method Overrides the superclass's onCreateOptionsMenu() method
-     * It sets up the toolbar and sets the toggleling icon based on the current list showing
+     * It sets up the toolbar menu
      *
      * @param menu @see AppCompatActivity.onCreateOptionsMenu()
-     * @return
+     * @return super return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
         getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
-        this.menu = menu;
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -272,14 +312,13 @@ public class RecipeSearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_home:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeSearchActivity.this, RecipeMainActivity.class);
-                startActivityForResult(nextActivity2, 346);
+                Intent goHome = new Intent(RecipeSearchActivity.this, RecipeMainActivity.class);
+                startActivity(goHome);
                 break;
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.searchHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.searchHelp))//TODO
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -289,22 +328,14 @@ public class RecipeSearchActivity extends AppCompatActivity {
                 Intent goToFav = new Intent(RecipeSearchActivity.this, RecipeFavActivity.class);
                 startActivity(goToFav);
                 break;
-//                if (showFave) {
-//                    showResults();
-//                    menu.getItem(0).setIcon(R.drawable.star_unfilled);
-//                } else {
-//                    showFavorite();
-//                    menu.getItem(0).setIcon(R.drawable.search);
-//                }
-//                showFave = !showFave;
-//                break;
+
             case R.id.toolbar_about:
                 Intent goToAbout = new Intent(RecipeSearchActivity.this, AboutMeActivity.class);
                 startActivity(goToAbout);
                 break;
             case R.id.toolbar_search:
                 Toast.makeText(this, getString(R.string.searchToast), Toast.LENGTH_LONG).show();
-
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -12,11 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.recipeapp.R;
 
 /**
- * Activity to hold our fragments, extends AppCompatActivity
+ * Activity to hold our fragments on phone, extends AppCompatActivity. It's parent activity is RecipeFavActivity.
+ * Tool bar can go to other activities (home, search, fav, about) and up navigation. Help shows AlertDialog.
  */
 public class FavEmptyActivity extends AppCompatActivity {
 
-    /**onCreate for RecipeEmptyActivity to hold our fragment
+    /**
+     * onCreate for RecipeEmptyActivity to hold our fragment of detail, set layout and toolbar
      * @param savedInstanceState  @see AppCompatActivity.onCreate()
      */
     @Override
@@ -32,7 +34,7 @@ public class FavEmptyActivity extends AppCompatActivity {
 
         RecipeDetailFragment dFragment = new RecipeDetailFragment();
         dFragment.setArguments(dataToPass); //pass data to the the fragment
-        dFragment.setTablet(false); //tell the Fragment that it's on a phone.
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.recipeFragmentLocation, dFragment)
@@ -40,12 +42,17 @@ public class FavEmptyActivity extends AppCompatActivity {
 
 
     }
-
+    /**
+     * This method Overrides the superclass's onCreateOptionsMenu() method
+     * It sets up the toolbar menu
+     *
+     * @param menu @see AppCompatActivity.onCreateOptionsMenu()
+     * @return super result
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
         getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
-//        this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -62,25 +69,20 @@ public class FavEmptyActivity extends AppCompatActivity {
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favDetailHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favDetailHelp))//TODO
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 break;
             case R.id.toolbar_fav:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity = new Intent(FavEmptyActivity.this, RecipeFavActivity.class);
-                startActivity(nextActivity);
-//                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
-//                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
-//                startActivityForResult(nextActivity, 346); //make the transition
+                Intent goToFav = new Intent(FavEmptyActivity.this, RecipeFavActivity.class);
+                startActivity(goToFav);
                 break;
 
             case R.id.toolbar_search:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(FavEmptyActivity.this, RecipeSearchActivity.class);
-                startActivityForResult(nextActivity2, 346);
+                Intent goToSearch = new Intent(FavEmptyActivity.this, RecipeSearchActivity.class);
+                startActivity(goToSearch);
                 break;
 
             case R.id.toolbar_about:
@@ -89,7 +91,7 @@ public class FavEmptyActivity extends AppCompatActivity {
                 break;
             case R.id.toolbar_home:
                 Intent goHome = new Intent(FavEmptyActivity.this, RecipeMainActivity.class);
-                startActivityForResult(goHome, 346);
+                startActivity(goHome);
         }
         return super.onOptionsItemSelected(item);
     }

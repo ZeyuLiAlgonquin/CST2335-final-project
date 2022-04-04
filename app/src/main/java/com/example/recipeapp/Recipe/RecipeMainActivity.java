@@ -22,18 +22,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
- * RecipeMain class is the front page for my Search Section of our Application with navigation drawer and toolbar.
- * It extends AppCompatActivity. If has a snack bar to remind you of the SharedPreferences value.
- * You are forced to acknowledge it to gain access
- * to the button that will start the search/list activity
+ * RecipeMain class is the front page for my Search Section of our Application with navigation drawer and toolbar to go to other activities (search, favorite, about).
+ * It extends AppCompatActivity. It has a snack bar to remind you of the last search keyword.
+ * Help will provide a AlertDialog to introduce the function of this page/activity.
+ * A toast will show if you click on home in this page.
+ *
  */
 public class RecipeMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static Menu menu;
 
     /**
      * This is an Override of  the onCreate from the super class, it displays a SnackBar and sets a
-     * clickListener for the go to Search activity button
+     * clickListener for the go to Search activity button, sets a toolbar and a navigation drawer
      *
      * @param savedInstanceState @See AppCompatActivity.onCreate()
      */
@@ -42,36 +42,13 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.recipeToolbar);
-//        setSupportActionBar(toolbar);
-
-//        String chickOrLasgne;
-//        Boolean bool = false;
-//        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-//
-//        pref.getBoolean("chicken", bool);
-//
-//        if (bool) {
-//            chickOrLasgne = getString(R.string.lastchoicechicken);
-//        } else {
-//            chickOrLasgne = getString(R.string.lastchoicelasagan);
-//        }
-//        CoordinatorLayout cLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-//
-//        Snackbar.make(cLayout, chickOrLasgne, Snackbar.LENGTH_INDEFINITE)
-//                .setAction(getString(R.string.gotcha), new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        // Respond to the click, or not it's really up to you
-//                    }
-//                }).show();
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         String lastSearch = pref.getString("search_keyword", "");
         ConstraintLayout hlayout = findViewById(R.id.home_layout);
         if (!lastSearch.isEmpty()) {
             Snackbar.make(hlayout, getString(R.string.lastSearchPrompt) + lastSearch, Snackbar.LENGTH_LONG).show();
         } else {
+            //TODO: This prompt could be changed
             Snackbar.make(hlayout, getString(R.string.firstSearchPrompt), Snackbar.LENGTH_LONG).show();
         }
 
@@ -81,24 +58,10 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
         {
             //first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
             Intent goToSearch = new Intent(RecipeMainActivity.this, RecipeSearchActivity.class);
-            startActivityForResult(goToSearch, 346); //make the transition
+            startActivity(goToSearch);
         });
 
 
-//        Toolbar toolbar1 = findViewById(R.id.toolbar);
-//        //setSupportActionBar(toolbar);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//
-//        FrameLayout frameLayout = findViewById(R.id.main_frameLayout);
-//        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-////        navigationView = findViewById(R.id.navigation);
-//
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawerLayout, toolbar1, R.string.navagation_drawer_open,
-//                R.string.navagation_drawer_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
         Toolbar tBar = (Toolbar)findViewById(R.id.recipe_toolbar);
         setSupportActionBar(tBar);
 
@@ -111,6 +74,12 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+    /**
+     * This sets the action on the items in navigation drawer
+     * @param item item in menu
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item){
 
@@ -120,14 +89,13 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
                 startActivity(goToSearch);
                 break;
             case R.id.drawer_fav:
-                Intent nextActivity = new Intent(RecipeMainActivity.this, RecipeFavActivity.class);
-//                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
-                startActivityForResult(nextActivity, 346); //make the transition
+                Intent goToFav = new Intent(RecipeMainActivity.this, RecipeFavActivity.class);
+                startActivity(goToFav);
                 break;
             case R.id.drawer_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.mainHelp))
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.mainHelp))//TODO: All the help strings need to be changed or added
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -152,7 +120,6 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.accessible_toolbar, menu);
-        this.menu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -176,18 +143,14 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
                         .show();
                 break;
             case R.id.toolbar_fav:
-                // RecipeSearch.setTable = false;
-                Intent nextActivity = new Intent(RecipeMainActivity.this, RecipeFavActivity.class);
-                startActivity(nextActivity);
-//                Intent nextActivity = new Intent(RecipeMain.this, RecipeSearch.class);
-//                nextActivity.putExtra(RecipeSearch.SHOW_FAVE, true);
-//                startActivityForResult(nextActivity, 346); //make the transition
+                Intent goToFav = new Intent(RecipeMainActivity.this, RecipeFavActivity.class);
+                startActivity(goToFav);
                 break;
 
             case R.id.toolbar_search:
                 // RecipeSearch.setTable = false;
-                Intent nextActivity2 = new Intent(RecipeMainActivity.this, RecipeSearchActivity.class);
-                startActivityForResult(nextActivity2, 346);
+                Intent goToSearch = new Intent(RecipeMainActivity.this, RecipeSearchActivity.class);
+                startActivity(goToSearch);
                 break;
 
             case R.id.toolbar_about:

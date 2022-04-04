@@ -37,16 +37,38 @@ import java.net.URL;
  */
 public class RecipeDetailFragment extends Fragment {
 
-    private boolean isTablet;
-    private boolean isFave;
+    /**
+     * image button star to remark fav status
+     */
     private ImageButton faveButton;
+    /**
+     * progress bar
+     */
     private ProgressBar progressBar;
+    /**
+     * image view of this recipe
+     */
     private ImageView imageView;
+    /**
+     * recipe title
+     */
     private TextView titleTextView;
+    /**
+     * recipe detail
+     */
     private TextView detailTextView;
+    /**
+     * object of RecipeEntry
+     */
     private RecipeEntry recipe;
 
+    /**
+     * Inner class as a subclass of AsyncTask to fetch detail of the recipe
+     */
     private class FetchRecipeDetail extends AsyncTask<Long, Integer, String> {
+        /**
+         * constant variable to store url template
+         */
         private final String urlTemplate = "https://api.spoonacular.com/recipes/%s/summary?apiKey=2311513282b7432684777caf629d344a";
 
         /**
@@ -54,7 +76,7 @@ public class RecipeDetailFragment extends Fragment {
          * <p>
          * It pulls the search results based on what the droids want you to think.
          * <p>
-         * Basically it switches between searching Chicken and Lasagna
+         * It built a http connection, get JSON based on the recipe id and set the title and detail with progress manually.
          *
          * @param @See AsyncTask.doInBackground()
          * @return @See AsyncTask.doInBackground()
@@ -96,7 +118,7 @@ public class RecipeDetailFragment extends Fragment {
 
         /**
          * This method takes the param values to update our progress bar.
-         * it keeps the search button and text field out of view while the progress bar is used.
+         *
          *
          * @param values
          */
@@ -108,12 +130,11 @@ public class RecipeDetailFragment extends Fragment {
 
         /**
          * This method Overrides the super class's onPostExecute.
-         * It calls the super method and turns back on the visibility for the search button and text
-         * It saves the value of the boolean that keeps track of what was last searched sends us back to our listView of the results
+         * It displays the title and detail of this recipe
          *
          * @param results @See AsyncTask.onPostExecute()
          */
-        @Override                   //Type 3 of Inner Created Class
+        @Override
         protected void onPostExecute(String results) {
             super.onPostExecute(results);
             titleTextView.setText(recipe.title);
@@ -124,14 +145,12 @@ public class RecipeDetailFragment extends Fragment {
 
     }
 
-    public void setTablet(boolean tablet) {
-        isTablet = tablet;
-    }
-
 
     /**
      * This is the Override of Fragment Class's onCreateView.
-     * It sets up all the values in our layout like, text, images, and hyperlinks
+     * It sets up all the values in our layout like, text, images, and details with progress bar
+     * The image button can work to remark favourite by checking the records in db.
+     * A snack bar displays when the favorite statue changes
      *
      * @param inflater           @see Fragment.onCreateView()
      * @param container          @see Fragment.onCreateView()
@@ -158,10 +177,10 @@ public class RecipeDetailFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.faveButton:
                     if (RecipeDAO.isExist(helper, recipe.id)) {
-                        Snackbar.make(v, "removed from Favorites", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, getString(R.string.favRemoved), Snackbar.LENGTH_LONG).show();
                         RecipeDAO.deleteFavRecipe(helper, recipe.id);
                     } else {
-                        Snackbar.make(v, "added to Favorites", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, getString(R.string.favAdded), Snackbar.LENGTH_LONG).show();
                         RecipeDAO.addFavRecipe(helper, recipe);
                     }
                     updateIcon();
@@ -185,7 +204,7 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     /**
-     * A simple function to update the filled/unfilled star icon based on if the record is in the Favorites Table
+     * A simple function to update the filled/unfilled star icon based on if the record is in the Favorites Table in db
      */
     private void updateIcon() {
         RecipeDatabaseHelper helper = new RecipeDatabaseHelper(getActivity());

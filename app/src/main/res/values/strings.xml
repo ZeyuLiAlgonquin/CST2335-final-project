@@ -54,6 +54,8 @@
     <string name="favLastSearchPrompt">Your last search in favorite is: </string>
     <string name="favFirstSearchPrompt">Welcome to your first search in favorite!</string>
     <string name="favSearchCount"> result(s) found in your favorite!</string>
+    <string name="favAdded">added to Favorites</string>
+    <string name="favRemoved">removed from Favorites</string>
 
 
     <!-- This is the end of Recipe Values. Thanks! DNT! -->
