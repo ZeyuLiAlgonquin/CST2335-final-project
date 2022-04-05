@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <include
-        layout="@layout/recipe_toolbar"
-        android:id="@+id/recipeToolbar" />
+        layout="@layout/toolbar" />
+
 
     <ListView
         android:id="@+id/recipeListView"
@@ -54,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/recipeSearchEditText" />
+                android:hint="@string/recipeSearchEditText" />
 
             <Button
                 android:id="@+id/recipeSearchButton"

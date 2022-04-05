@@ -1,5 +1,6 @@
 package com.example.recipeapp.Recipe;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -9,13 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.recipeapp.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -23,23 +35,122 @@ import com.squareup.picasso.Picasso;
  * It extends Fragment and implements View.OnClickListener.
  * Sets an onClickListener() to our Star icon for using the Favorites List
  */
-public class RecipeDetailFragment extends Fragment implements View.OnClickListener {
+public class RecipeDetailFragment extends Fragment {
 
-    private boolean isTablet;
-    private boolean isFave;
-    private Bundle bundle;
-    private String title;
+    /**
+     * image button star to remark fav status
+     */
     private ImageButton faveButton;
+    /**
+     * progress bar
+     */
+    private ProgressBar progressBar;
+    /**
+     * image view of this recipe
+     */
+    private ImageView imageView;
+    /**
+     * recipe title
+     */
+    private TextView titleTextView;
+    /**
+     * recipe detail
+     */
+    private TextView detailTextView;
+    /**
+     * object of RecipeEntry
+     */
+    private RecipeEntry recipe;
 
+    /**
+     * Inner class as a subclass of AsyncTask to fetch detail of the recipe
+     */
+    private class FetchRecipeDetail extends AsyncTask<Long, Integer, String> {
+        /**
+         * constant variable to store url template
+         */
+        private final String urlTemplate = "https://api.spoonacular.com/recipes/%s/summary?apiKey=2311513282b7432684777caf629d344a";
 
-    public void setTablet(boolean tablet) {
-        isTablet = tablet;
+        /**
+         * This Overrides AsyncTask.doInBackGround()
+         * <p>
+         * It pulls the search results based on what the droids want you to think.
+         * <p>
+         * It built a http connection, get JSON based on the recipe id and set the title and detail with progress manually.
+         *
+         * @param @See AsyncTask.doInBackground()
+         * @return @See AsyncTask.doInBackground()
+         */
+        @Nullable
+        @Override
+        protected String doInBackground(Long... params) {
+            Long recipeId = params[0];
+            String rawUrl = String.format(urlTemplate, recipeId);
+            try {
+                URL url = new URL(rawUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                publishProgress(10);
+                InputStream inStream = urlConnection.getInputStream();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
+                publishProgress(20);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                JSONObject r = new JSONObject(sb.toString());
+                publishProgress(80);
+                if (recipe != null) {
+                    recipe.title = r.getString("title");
+                    recipe.details = r.getString("summary");
+                }
+                publishProgress(100);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /**
+         * This method takes the param values to update our progress bar.
+         *
+         *
+         * @param values
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+        }
+
+        /**
+         * This method Overrides the super class's onPostExecute.
+         * It displays the title and detail of this recipe
+         *
+         * @param results @See AsyncTask.onPostExecute()
+         */
+        @Override
+        protected void onPostExecute(String results) {
+            super.onPostExecute(results);
+            titleTextView.setText(recipe.title);
+            Spanned text = Html.fromHtml(recipe.details);
+            detailTextView.setMovementMethod(LinkMovementMethod.getInstance());
+            detailTextView.setText(text);
+        }
+
     }
 
 
     /**
      * This is the Override of Fragment Class's onCreateView.
-     * It sets up all the values in our layout like, text, images, and hyperlinks
+     * It sets up all the values in our layout like, text, images, and details with progress bar
+     * The image button can work to remark favourite by checking the records in db.
+     * A snack bar displays when the favorite statue changes
      *
      * @param inflater           @see Fragment.onCreateView()
      * @param container          @see Fragment.onCreateView()
@@ -49,74 +160,55 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        recipe = new RecipeEntry();
+        recipe.id = bundle.getLong("id");
+        recipe.title = bundle.getString("title");
+        recipe.imageUrl = bundle.getString("imageUrl");
+        recipe.details = bundle.getString("details");
+        new FetchRecipeDetail().execute(recipe.id);
 
-        bundle = getArguments();
+        View detailLayout = inflater.inflate(R.layout.detail, container, false);
 
-        title = bundle.getString(RecipeDatabaseHelper.COL_TITLE);
+        faveButton = detailLayout.findViewById(R.id.faveButton);
+        faveButton.setOnClickListener((View v) -> {
+            RecipeDatabaseHelper helper = new RecipeDatabaseHelper(getActivity());
 
-        View result = inflater.inflate(R.layout.frament_recipe_detail, container, false);
+            switch (v.getId()) {
+                case R.id.faveButton:
+                    if (RecipeDAO.isExist(helper, recipe.id)) {
+                        Snackbar.make(v, getString(R.string.favRemoved), Snackbar.LENGTH_LONG).show();
+                        RecipeDAO.deleteFavRecipe(helper, recipe.id);
+                    } else {
+                        Snackbar.make(v, getString(R.string.favAdded), Snackbar.LENGTH_LONG).show();
+                        RecipeDAO.addFavRecipe(helper, recipe);
+                    }
+                    updateIcon();
+                    break;
+                default:
+                    break;
+            }
 
-        ImageView imageView = result.findViewById(R.id.imageRecipe);
-        String path = bundle.getString(RecipeDatabaseHelper.COL_IMAGE);
-        Picasso.get().load(path).into(imageView);
-
-        TextView textTitle = (TextView) result.findViewById(R.id.textTitle);
-        textTitle.setText(getString(R.string.Title) + " " + title);
-
-        faveButton = result.findViewById(R.id.faveButton);
-
-        faveButton.setOnClickListener(this);
+        });
         updateIcon();
 
-        TextView HyperLink = result.findViewById(R.id.textValue2);
-        String detail = bundle.getString(RecipeDatabaseHelper.COL_DETAIL);
-        Spanned text = Html.fromHtml(detail);
+        imageView = detailLayout.findViewById(R.id.imageRecipe);
+        Picasso.get().load(recipe.imageUrl).into(imageView);
 
-        HyperLink.setMovementMethod(LinkMovementMethod.getInstance());
-        HyperLink.setText(text);
+        titleTextView = (TextView) detailLayout.findViewById(R.id.textTitle);
+        titleTextView.setText(recipe.title);
+        detailTextView = detailLayout.findViewById(R.id.textValue2);
+        progressBar = detailLayout.findViewById(R.id.detailProgressBar);
 
-        return result;
+        return detailLayout;
     }
 
     /**
-     * A method to set up the onClick function to control what happens when our button is clicked
-     *
-     * @param v pass the Image button
-     */
-    @Override
-    public void onClick(View v) {
-
-        String tableName = RecipeDatabaseHelper.FAVORITE_TABLE;
-        String image = bundle.getString(RecipeDatabaseHelper.COL_IMAGE);
-        String recipeId = bundle.getString(RecipeDatabaseHelper.COL_RECIPE_ID);
-        String publisher = bundle.getString(RecipeDatabaseHelper.COL_DETAIL);
-
-
-        switch (v.getId()) {
-            case R.id.faveButton:
-                if (RecipeDatabaseHelper.doesRecordExist(tableName, RecipeDatabaseHelper.COL_TITLE, title)) {
-                    //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
-                    Snackbar.make(v, "removed from Favorites", Snackbar.LENGTH_LONG).show();
-                    RecipeDatabaseHelper.deleteItem(title, tableName);
-                    updateIcon();
-                } else {
-                    Snackbar.make(v, "added to Favorites", Snackbar.LENGTH_LONG).show();
-                    RecipeDatabaseHelper.insertItem(tableName, title, publisher, recipeId, image);
-                    updateIcon();
-                }
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    /**
-     * A simple function to update the filled/unfilled star icon based on if the record is in the Favorites Table
+     * A simple function to update the filled/unfilled star icon based on if the record is in the Favorites Table in db
      */
     private void updateIcon() {
-        isFave = RecipeDatabaseHelper.doesRecordExist(RecipeDatabaseHelper.FAVORITE_TABLE, RecipeDatabaseHelper.COL_TITLE, title);
-        if (RecipeDatabaseHelper.doesRecordExist(RecipeDatabaseHelper.FAVORITE_TABLE, RecipeDatabaseHelper.COL_TITLE, title)) {
+        RecipeDatabaseHelper helper = new RecipeDatabaseHelper(getActivity());
+        if (RecipeDAO.isExist(helper, recipe.id)) {
             faveButton.setImageResource(R.drawable.star_filled);
         } else {
             faveButton.setImageResource(R.drawable.star_unfilled);

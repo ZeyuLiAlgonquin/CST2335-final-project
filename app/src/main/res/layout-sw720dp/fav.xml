@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/recipeFragmentLocation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#4F0F3F72"
+            app:layout_constraintBottom_toTopOf="@+id/fav_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/favRecipeListView"
+            app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+
+        <ListView
+            android:id="@+id/favRecipeListView"
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/fav_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ListView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fav_layout"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+
+            android:layout_weight="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <ProgressBar
+                android:id="@+id/favProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:max="100"
+                app:layout_constraintBottom_toTopOf="@+id/favFilterText"
+                app:layout_constraintEnd_toEndOf="@+id/favFilterButton"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/favFilterText"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/favFilterText"
+                android:layout_width="663dp"
+                android:layout_height="66dp"
+                android:layout_marginBottom="4dp"
+                android:hint="@string/favSearchHint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/favFilterButton"
+                app:layout_constraintHorizontal_bias="0.035"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/favFilterButton"
+                android:layout_width="309dp"
+                android:layout_height="59dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="7dp"
+                android:text="@string/favSearchButton"
+                app:layout_constraintBottom_toBottomOf="@+id/favFilterText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/favFilterText" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -12,22 +12,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- <activity android:name=".MainActivity"> -->
-        <activity android:name=".Recipe.RecipeMain">
+
+
+        <activity android:name=".Recipe.RecipeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Recipe.RecipeSearch"
-            android:label="@string/recipeapp"/>
 
-        <activity android:name=".Recipe.RecipeAsync" />
-        <activity android:name=".Recipe.RecipeEmptyActivity"
-            android:label="Recipe Search App"/>
-        <activity android:name=".Recipe.RecipeDetailFragment" />
-        <!-- <activity android:name=".Recipe.RecipeMain" /> -->
+        <activity
+            android:name=".Recipe.AboutMeActivity"
+            android:exported="false"
+            android:label="@string/about_title"
+            android:parentActivityName=".Recipe.RecipeMainActivity" />
+
+        <activity
+            android:name=".Recipe.RecipeSearchActivity"
+            android:label="@string/search_title"
+            android:parentActivityName=".Recipe.RecipeMainActivity" />
+        <activity
+            android:name=".Recipe.SearchEmptyActivity"
+            android:label="@string/detail_title"
+            android:parentActivityName=".Recipe.RecipeSearchActivity" />
+        <activity
+            android:name=".Recipe.FavEmptyActivity"
+            android:label="@string/detail_title"
+            android:parentActivityName=".Recipe.RecipeFavActivity" />
+
+        <activity
+            android:name=".Recipe.RecipeFavActivity"
+            android:label="@string/fav_title"
+            android:parentActivityName=".Recipe.RecipeMainActivity" />
     </application>
 
 </manifest>

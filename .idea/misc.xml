@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout-sw720dp/fav.xml" value="0.26229508196721313" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout-sw720dp/recipe_activity.xml" value="0.31875" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout-sw720dp/search.xml" value="0.26229508196721313" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/about.xml" value="0.34782608695652173" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/activity_about_me.xml" value="0.203125" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/activity_fav_empty.xml" value="0.34782608695652173" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/activity_news_help_dialog_box.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/app_drawer.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/content_home.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/detail.xml" value="0.264" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/drawer.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/fav.xml" value="0.264" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/fragment_main.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/frament_recipe_detail.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/header_file.xml" value="0.264" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/help.xml" value="0.34782608695652173" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/home.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/list_item.xml" value="0.34782608695652173" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/main.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/main_with_toolbar_drawer.xml" value="0.2" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/nav_drawer_header.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/recipe_activity.xml" value="0.2" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/recipe_empty.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/recipe_main_activty.xml" value="0.176" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/recipe_toolbar.xml" value="0.264" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/recipe_toolbar_drawer.xml" value="0.34782608695652173" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/search.xml" value="0.34782608695652173" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/layout/toolbar.xml" value="0.4" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/accessible_toolbar.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/activity_main_drawer.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/detail_toolbar.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/drawer_menu.xml" value="0.203125" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/fav_toolbar.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/home_toolbar.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/recipe_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/search_toolbar.xml" value="0.425" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/side_menu.xml" value="0.42135416666666664" />
+        <entry key="..\:/Users/Yan/AndroidStudioProjects/CST2335-final-project/app/src/main/res/menu/toolbar_menu.xml" value="0.203125" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
