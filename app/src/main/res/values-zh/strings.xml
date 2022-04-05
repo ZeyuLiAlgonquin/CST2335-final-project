@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">安卓应用开发</string>
+
+    <string name="ButtonText">我是一个按键</string>
+
+
+    <string name="authors">作者: Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li</string>
+
+    <string name="recipeSearchButtonText">搜索</string>
+    <string name="recipeSearchEditText">你想搜索什么内容？</string>
+    <string name="applicationName">安卓应用开发</string>
+    <string name="recipeMainButton">搜索菜谱！</string>
+    <string name="recipeVersion">版本： 0.3 beta</string>
+    <string name="recipeapp">菜谱应用</string>
+    <string name="information">本页面信息</string>
+
+    <string name="mainHelp">点击此处搜索或按五角星符号去往收藏夹</string>
+    <string name="searchHelp">点击结果/收藏夹。显示结果页面仅可搜索</string>
+    <string name="aboutHelp">这是帮助页面，可以点击不同按键查看</string>
+    <string name="favHelp">点此加入收藏</string>
+    <string name="favDetailHelp">点击五角星键保存至收藏夹，你还可以查看之前保存的菜单</string>
+    <string name="searchDetailHelp">点击此处来按原料搜索菜单</string>
+
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+    <string name="about_me_title">关于本安卓应用</string>
+    <string name="about_body">本应用是CST2335_013的期终作业，由Yuanhui Xu, Xin (Elliot) Peng, and Zeyu Li合作开发。本应用主要功能为菜谱搜索。
+        搜索栏输入原料即可实现相应菜谱的搜索。搜索成功后可将菜谱加入收藏夹。本应用还包含帮助页面和简介页面。</string>
+
+    <string name="search_title">搜索页</string>
+    <string name="fav_title">收藏夹</string>
+    <string name="about_title">关于</string>
+    <string name="detail_title">菜谱</string>
+    <string name="search_hint">输入原料来搜索</string>
+    <string name="favSearchHint">在收藏夹里搜索</string>
+    <string name="favSearchButton">筛选</string>
+    <string name="homeToast">你在首页！</string>
+    <string name="searchToast">你在搜索！</string>
+    <string name="favToast">这是你的收藏夹</string>
+    <string name="aboutToast">你在关于页面</string>
+    <string name="lastSearchPrompt">你上次搜索结果是： </string>
+    <string name="firstSearchPrompt">开始搜索！</string>
+    <string name="favLastSearchPrompt">你上次收藏的菜谱是: </string>
+    <string name="favFirstSearchPrompt">欢迎来到收藏夹中搜索信息</string>
+    <string name="favSearchCount"> 个结果</string>
+    <string name="favAdded">加入收藏夹</string>
+    <string name="favRemoved">从收藏夹移除</string>
+
+    <string name="drawer_home">首页</string>
+    <string name="drawer_search">搜索页</string>
+    <string name="drawer_fav">收藏夹</string>
+    <string name="drawer_help">帮助页面</string>
+    <string name="drawer_aboutme">关于本应用</string>
+
+</resources>

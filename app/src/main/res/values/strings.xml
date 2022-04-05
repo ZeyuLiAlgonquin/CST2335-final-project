@@ -10,39 +10,32 @@
 
     <string name="recipeSearchButtonText">Search</string>
     <string name="recipeSearchEditText">What are you looking for?</string>
-    <!--    <string name="Publisher">Publisher :</string>-->
-    <!--    <string name="Title">Title :</string>-->
-    <!--    <string name="recipeFragmentImageDescription">This Recipe\'s Image</string>-->
     <string name="applicationName">Android Final </string>
     <string name="recipeMainButton">Search Recipes!</string>
-    <!--    <string name="recipeSearchLasagna">You wrote Lasagna right?</string>-->
-    <!--    <string name="recipeSearchChicken">I like Chicken too!</string>-->
     <string name="recipeVersion">Ver 0.3 beta</string>
-    <!--    <string name="gotcha">Gotcha</string>-->
-    <!--    <string name="lastchoicelasagan">Your last choice was to look for lasagna recipes.</string>-->
-    <!--    <string name="lastchoicechicken">Your last choice was to look for chicken recipes.</string>-->
     <string name="recipeapp">Recipe App</string>
-    <!--    <string name="gotorecipe">Go To Recipe</string>-->
     <string name="information">Activity Information</string>
 
-    <!--    TODO: help information in alert, different pages, all need to be changed-->
     <string name="mainHelp">Click button to start Searching! Or click the star on the toolbar to go directly to your Favorites</string>
     <string name="searchHelp">Toggle Results/Favorites list on toolbar. You may only enter search when looking at the Results List. Also the droids only let you search Lasagna and Chicken, go figure.</string>
-    <string name="aboutHelp">TODO: about</string>
-    <string name="favHelp">TODO: how to use fav</string>
-    <string name="favDetailHelp">TODO: detail in fav</string>
-    <string name="searchDetailHelp">TODO: detail in search</string>
+    <string name="aboutHelp">This is the help introduction, you can press each button to do different things!</string>
+    <string name="favHelp">Click the button to add to your favorite</string>
+    <string name="favDetailHelp">Click the star button to add the recipe to your favorite, you can see your previous saved recipes</string>
+    <string name="searchDetailHelp">Click the button to search for a recipe by ingredient</string>
 
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
-    <string name="about_body">This app is the final project of CST2335 xxxx TODO: Introduce this app, author, function details</string>
+    <string name="about_me_title">About me</string>
+    <string name="about_body">This app is the final project of CST2335_013 cooperated by Yuanhui Xu, Xin (Elliot) Peng, and Zeyu Li. The app is for recipe searching.
+        By entering an ingredient in the search bar, it will generate the search result. You can add it to your favorite for later use. The app has also an about me page
+        as well as help to guide the use of the app.</string>
 
 <!--    titles-->
     <string name="search_title">Search</string>
     <string name="fav_title">My Favorite</string>
     <string name="about_title">Information</string>
     <string name="detail_title">Recipe</string>
-
+    <string name="search_hint">Search by ingredient</string>
     <string name="favSearchHint">Search in my favourite</string>
     <string name="favSearchButton">Filter</string>
     <string name="homeToast">You\'re at home!</string>
@@ -50,25 +43,20 @@
     <string name="favToast">I\'m your favorite!</string>
     <string name="aboutToast">You\'re in the information page!</string>
     <string name="lastSearchPrompt">Your last search is: </string>
-    <string name="firstSearchPrompt">Welcome to your first search!</string>
+    <string name="firstSearchPrompt">Start a new search!</string>
     <string name="favLastSearchPrompt">Your last search in favorite is: </string>
     <string name="favFirstSearchPrompt">Welcome to your first search in favorite!</string>
     <string name="favSearchCount"> result(s) found in your favorite!</string>
     <string name="favAdded">added to Favorites</string>
     <string name="favRemoved">removed from Favorites</string>
 
+    <string name="drawer_home">Home</string>
+    <string name="drawer_search">Search</string>
+    <string name="drawer_fav">Favorite</string>
+    <string name="drawer_help">Help</string>
+    <string name="drawer_aboutme">About me</string>
+
 
     <!-- This is the end of Recipe Values. Thanks! DNT! -->
 
-
-    <!--    <string name="favorlist_dialog_msg">Do you want to delete the selected item..?</string>-->
-
-    <!--    <string name="favorlist_dialog_title">Are you sure..</string>-->
-    <!--    <string name="gobacktomain">Go Back</string>-->
-    <!--    <string name="help_menu_title_text">Help</string>-->
-    <!--    <string name="detailF_dialog_msg">added News to Favourites!</string>-->
-    <!--    <string name="toastmsg_2">Valid search!!!</string>-->
-    <!--    <string name="toastmsg_3">Invalid Search!!! \n\n Enter a key word and try again</string>-->
-
-    <!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
 </resources>
