@@ -17,16 +17,16 @@
     <string name="information">Activity Information</string>
 
     <string name="mainHelp">Click button to start Searching! Or click the star on the toolbar to go directly to your Favorites</string>
-    <string name="searchHelp">Toggle Results/Favorites list on toolbar. You may only enter search when looking at the Results List. Also the droids only let you search Lasagna and Chicken, go figure.</string>
-    <string name="aboutHelp">This is the help introduction, you can press each button to do different things!</string>
-    <string name="favHelp">Click the button to add to your favorite</string>
-    <string name="favDetailHelp">Click the star button to add the recipe to your favorite, you can see your previous saved recipes</string>
-    <string name="searchDetailHelp">Click the button to search for a recipe by ingredient</string>
+    <string name="searchHelp">Input the ingredient you want to search and click on the search button. The results would be displayed in list. </string>
+    <string name="aboutHelp">This is the information about this app and authors.</string>
+    <string name="favHelp">Input the ingredient you want to search in favorite and click on the filter button. The results would be displayed in list. Long click can delete it from favorite.</string>
+    <string name="favDetailHelp">Click the star button to delete the recipe from your favorite</string>
+    <string name="searchDetailHelp">Click the star button to add the recipe to your favorite</string>
 
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
     <string name="about_me_title">About me</string>
-    <string name="about_body">This app is the final project of CST2335_013 cooperated by Yuanhui Xu, Xin (Elliot) Peng, and Zeyu Li. The app is for recipe searching.
+    <string name="about_body">This app is the final project of CST2335_013 cooperated by Yuanhui Xu, Xin (Elliot) Peng, and Zeyu Li. \n\nThe app is for recipe searching.
         By entering an ingredient in the search bar, it will generate the search result. You can add it to your favorite for later use. The app has also an about me page
         as well as help to guide the use of the app.</string>
 
