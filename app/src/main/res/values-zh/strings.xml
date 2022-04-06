@@ -16,12 +16,12 @@
     <string name="recipeapp">菜谱应用</string>
     <string name="information">本页面信息</string>
 
-    <string name="mainHelp">点击此处搜索或按五角星符号去往收藏夹</string>
-    <string name="searchHelp">点击结果/收藏夹。显示结果页面仅可搜索</string>
-    <string name="aboutHelp">这是帮助页面，可以点击不同按键查看</string>
-    <string name="favHelp">点此加入收藏</string>
-    <string name="favDetailHelp">点击五角星键保存至收藏夹，你还可以查看之前保存的菜单</string>
-    <string name="searchDetailHelp">点击此处来按原料搜索菜单</string>
+    <string name="mainHelp">点击按钮搜索或按五角星符号去往收藏夹</string>
+    <string name="searchHelp">输入您想搜索的食材后点击搜索按钮，结果会显示在列表里</string>
+    <string name="aboutHelp">这个页面介绍了产品和作者的相关信息</string>
+    <string name="favHelp">输入您想在收藏夹中搜索的食材后点击过滤按钮，结果会显示在列表里。长按会在收藏夹中删除该项。</string>
+    <string name="favDetailHelp">点击五角星键从收藏夹移除</string>
+    <string name="searchDetailHelp">点击五角星键保存至收藏夹</string>
 
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
