@@ -197,7 +197,7 @@ public class RecipeFavActivity extends AppCompatActivity {
             case R.id.toolbar_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favHelp))//TODO
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.favHelp))
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)

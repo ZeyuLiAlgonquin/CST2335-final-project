@@ -48,7 +48,6 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
         if (!lastSearch.isEmpty()) {
             Snackbar.make(hlayout, getString(R.string.lastSearchPrompt) + lastSearch, Snackbar.LENGTH_LONG).show();
         } else {
-            //TODO: This prompt could be changed
             Snackbar.make(hlayout, getString(R.string.firstSearchPrompt), Snackbar.LENGTH_LONG).show();
         }
 
@@ -95,7 +94,7 @@ public class RecipeMainActivity extends AppCompatActivity implements NavigationV
             case R.id.drawer_help:
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.mainHelp))//TODO: All the help strings need to be changed or added
+                        .setMessage(getString(R.string.recipeVersion) + "\n" + getString(R.string.mainHelp))
                         // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
