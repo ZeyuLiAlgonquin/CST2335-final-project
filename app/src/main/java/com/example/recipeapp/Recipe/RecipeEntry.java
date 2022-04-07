@@ -2,6 +2,7 @@ package com.example.recipeapp.Recipe;
 
 /**
  * class Recipe Entry to store information of recipe
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeEntry {
     /**

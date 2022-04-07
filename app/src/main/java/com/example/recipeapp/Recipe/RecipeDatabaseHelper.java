@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**This is my DatabaseHelper class for the Recipe Portion as a subclass of SQLiteOpenHelper
- *
+ *@author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeDatabaseHelper extends SQLiteOpenHelper {
 

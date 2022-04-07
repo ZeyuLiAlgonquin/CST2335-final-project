@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * class Recipe DAO as Data Access Object to implement insert, delete, query and query count
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeDAO {
 

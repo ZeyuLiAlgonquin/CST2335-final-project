@@ -30,6 +30,7 @@ import java.util.ArrayList;
  * It provided a filter to display specific results in list view with a toast to show the number of results.
  * Tool bar can go to other activities (home, search, about) and up navigation. Help shows AlertDialog. Favorite displays toast.
  * Long click on the item in list view can delete it from the db and the view
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeFavActivity extends AppCompatActivity {
 

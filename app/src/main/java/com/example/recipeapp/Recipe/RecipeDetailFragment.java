@@ -34,6 +34,7 @@ import java.net.URL;
  * This is our Fragment class that is used to display the details of or Records/List items
  * It extends Fragment and implements View.OnClickListener.
  * Sets an onClickListener() to our Star icon for using the Favorites List
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeDetailFragment extends Fragment {
 
