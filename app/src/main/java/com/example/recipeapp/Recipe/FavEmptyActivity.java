@@ -14,6 +14,7 @@ import com.example.recipeapp.R;
 /**
  * Activity to hold our fragments on phone, extends AppCompatActivity. It's parent activity is RecipeFavActivity.
  * Tool bar can go to other activities (home, search, fav, about) and up navigation. Help shows AlertDialog.
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class FavEmptyActivity extends AppCompatActivity {
 

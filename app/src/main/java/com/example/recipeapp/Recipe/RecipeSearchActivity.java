@@ -38,6 +38,7 @@ import java.util.ArrayList;
  * It also shows a snack bar about the last search information if exists. A process bar display the process of task
  * Tool bar can go to other activities (home, fav, about) and up navigation. Help shows AlertDialog. Search displays toast.
  * It extends AppCompatActivity
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeSearchActivity extends AppCompatActivity {
 

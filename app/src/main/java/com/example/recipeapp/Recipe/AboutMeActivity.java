@@ -15,6 +15,7 @@ import com.example.recipeapp.R;
 /**
  * This class is About Me with all information about this application and authors. subclass of AppCompatActivity.
  * Tool bar can go to other activities (home, search and fav) and up navigation. Help shows AlertDialog. About displays toast.
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class AboutMeActivity extends AppCompatActivity {
 

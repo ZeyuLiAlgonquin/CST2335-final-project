@@ -26,7 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
  * It extends AppCompatActivity. It has a snack bar to remind you of the last search keyword.
  * Help will provide a AlertDialog to introduce the function of this page/activity.
  * A toast will show if you click on home in this page.
- *
+ * @author Yuanhui Xu, Xin (Elliot) Peng, Zeyu Li
  */
 public class RecipeMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
